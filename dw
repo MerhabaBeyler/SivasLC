@@ -1,0 +1,3091 @@
+// Decompiled with: CFR 0.152
+// Class Version: 8
+package net.minecraft.client;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Queues;
+import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListenableFutureTask;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.minecraft.MinecraftSessionService;
+import com.mojang.authlib.properties.PropertyMap;
+import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.management.ManagementFactory;
+import java.net.Proxy;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import javax.imageio.ImageIO;
+import monomorphism.manager.event.EventKey;
+import monomorphism.manager.module.util.Client;
+import net.minecraft.BlockPos;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.U;
+import net.minecraft.aE;
+import net.minecraft.be;
+import net.minecraft.cP;
+import net.minecraft.client.A;
+import net.minecraft.client.C;
+import net.minecraft.client.V;
+import net.minecraft.client.X;
+import net.minecraft.client.a5;
+import net.minecraft.client.aF;
+import net.minecraft.client.aM;
+import net.minecraft.client.aP;
+import net.minecraft.client.af;
+import net.minecraft.client.av;
+import net.minecraft.client.b0;
+import net.minecraft.client.bU;
+import net.minecraft.client.bV;
+import net.minecraft.client.bo;
+import net.minecraft.client.c;
+import net.minecraft.client.cB;
+import net.minecraft.client.cI;
+import net.minecraft.client.cM;
+import net.minecraft.client.cW;
+import net.minecraft.client.cZ;
+import net.minecraft.client.c_;
+import net.minecraft.client.ca;
+import net.minecraft.client.cf;
+import net.minecraft.client.cg;
+import net.minecraft.client.cl;
+import net.minecraft.client.cs;
+import net.minecraft.client.ct;
+import net.minecraft.client.dS;
+import net.minecraft.client.dg;
+import net.minecraft.client.dn;
+import net.minecraft.client.e4;
+import net.minecraft.client.eU;
+import net.minecraft.client.eY;
+import net.minecraft.client.eZ;
+import net.minecraft.client.e_;
+import net.minecraft.client.eb;
+import net.minecraft.client.ef;
+import net.minecraft.client.ei;
+import net.minecraft.client.eo;
+import net.minecraft.client.ey;
+import net.minecraft.client.f6;
+import net.minecraft.client.f7;
+import net.minecraft.client.fM;
+import net.minecraft.client.fT;
+import net.minecraft.client.fl;
+import net.minecraft.client.fp;
+import net.minecraft.client.g6;
+import net.minecraft.client.gE;
+import net.minecraft.client.gK;
+import net.minecraft.client.gL;
+import net.minecraft.client.gS;
+import net.minecraft.client.gY;
+import net.minecraft.client.ga;
+import net.minecraft.client.gl;
+import net.minecraft.client.gt;
+import net.minecraft.client.h;
+import net.minecraft.client.hL;
+import net.minecraft.client.hg;
+import net.minecraft.client.hp;
+import net.minecraft.client.i9;
+import net.minecraft.client.iB;
+import net.minecraft.client.iF;
+import net.minecraft.client.j6;
+import net.minecraft.client.jB;
+import net.minecraft.client.jD;
+import net.minecraft.client.jF;
+import net.minecraft.client.jI;
+import net.minecraft.client.jO;
+import net.minecraft.client.jd;
+import net.minecraft.client.jg;
+import net.minecraft.client.jl;
+import net.minecraft.client.jp;
+import net.minecraft.client.ju;
+import net.minecraft.client.jx;
+import net.minecraft.client.jy;
+import net.minecraft.client.kC;
+import net.minecraft.client.kL;
+import net.minecraft.client.kb;
+import net.minecraft.client.kl;
+import net.minecraft.client.kp;
+import net.minecraft.client.kr;
+import net.minecraft.client.l3;
+import net.minecraft.client.l7;
+import net.minecraft.client.lB;
+import net.minecraft.client.lN;
+import net.minecraft.client.lU;
+import net.minecraft.client.li;
+import net.minecraft.cz;
+import net.minecraft.d3;
+import net.minecraft.e6;
+import net.minecraft.eF;
+import net.minecraft.eG;
+import net.minecraft.eK;
+import net.minecraft.eV;
+import net.minecraft.el;
+import net.minecraft.fi;
+import net.minecraft.gO;
+import net.minecraft.gQ;
+import net.minecraft.hk;
+import net.minecraft.j4;
+import net.minecraft.jW;
+import net.minecraft.je;
+import net.minecraft.jf;
+import net.minecraft.jv;
+import net.minecraft.m7;
+import net.minecraft.mJ;
+import net.minecraft.md;
+import net.minecraft.mv;
+import net.minecraft.mz;
+import net.minecraft.nI;
+import net.minecraft.nK;
+import net.minecraft.nn;
+import net.minecraft.no;
+import net.minecraft.ny;
+import net.minecraft.o4;
+import net.minecraft.o6;
+import net.minecraft.og;
+import net.minecraft.p2;
+import net.minecraft.p7;
+import net.minecraft.p9;
+import net.minecraft.qA;
+import net.minecraft.q_;
+import net.minecraft.qv;
+import net.minecraft.re;
+import net.minecraft.rp;
+import net.minecraft.sE;
+import net.minecraft.tH;
+import net.minecraft.uE;
+import net.minecraft.uF;
+import net.minecraft.uX;
+import net.minecraft.ui;
+import net.minecraft.uo;
+import net.minecraft.ux;
+import net.minecraft.vH;
+import net.minecraft.vT;
+import net.minecraft.vV;
+import net.minecraft.vx;
+import net.minecraft.w1;
+import net.minecraft.wO;
+import net.minecraft.wd;
+import net.minecraft.wr;
+import net.minecraft.x7;
+import net.minecraft.xp;
+import net.minecraft.y8;
+import net.minecraft.yE;
+import net.minecraft.yk;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.ContextCapabilities;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.OpenGLException;
+import org.lwjgl.opengl.PixelFormat;
+import org.lwjgl.util.glu.GLU;
+
+/*
+ * Duplicate member names - consider using --renamedupmembers true
+ */
+public class dw
+implements ui,
+p2 {
+    private static final Logger S;
+    private static final vx i;
+    public static final boolean a1;
+    public static byte[] ad;
+    private static final List<DisplayMode> P;
+    private final File e;
+    private final PropertyMap F;
+    private final PropertyMap A;
+    private a5 aK;
+    private kb h;
+    private static dw w;
+    public eU Q;
+    private boolean ap;
+    private boolean aq;
+    private boolean o;
+    private CrashReport av;
+    public int s;
+    public int m;
+    private boolean y;
+    private eV b;
+    private sE O;
+    public cW I;
+    public jD n;
+    private kr ba;
+    private net.minecraft.client.cz ao;
+    private ju R;
+    public e4 aQ;
+    private m7 al;
+    public m7 an;
+    public aF aw;
+    private final md a4;
+    private boolean aU;
+    public lU ar;
+    public lU a5;
+    public lU aB;
+    public gL E;
+    public ei ax;
+    public l7 T;
+    private int aF;
+    private int M;
+    private int a;
+    private eG aR;
+    public hL a_;
+    public gE V;
+    public boolean v;
+    public uX W;
+    public jp aN;
+    public gQ d;
+    public final File aj;
+    private final File r;
+    private final String ai;
+    private final Proxy H;
+    private jW aL;
+    private static int aW;
+    private int a3;
+    private int am;
+    private int ae;
+    private String G;
+    private int aD;
+    public boolean z;
+    long C;
+    private int aJ;
+    public final fi a6;
+    long as;
+    private final boolean bb;
+    private final boolean N;
+    private cP bc;
+    private boolean ab;
+    public final aE a2;
+    private long u;
+    private eb bd;
+    public final jI K;
+    private final List<i9> aG;
+    private final cf p;
+    private af J;
+    public float k;
+    private lN x;
+    private eZ aM;
+    private A c;
+    private h aV;
+    private fl aA;
+    private jB aE;
+    public boolean t;
+    public byte l;
+    public boolean Z;
+    public vx f;
+    private vx au;
+    private final MinecraftSessionService aZ;
+    private aP j;
+    private final Queue<FutureTask<?>> q;
+    private Queue<Runnable> az;
+    private long aa;
+    private final Thread D;
+    private jg X;
+    private int ay;
+    public String ah;
+    private rN a8;
+    private et Y;
+    private boolean aS;
+    private String aX;
+    public String U;
+    public String g;
+    public String aP;
+    private eo a9;
+    private final od aI;
+    volatile boolean B;
+    public String ac;
+    public boolean aH;
+    public boolean ag;
+    public boolean aC;
+    public boolean L;
+    public int ak;
+    long aO;
+    int a7;
+    long aT;
+    private String at;
+    private long aY;
+    private long af;
+    private static m7[] a0;
+
+    public dw(net.minecraft.client.main.h h2) {
+        block1: {
+            this.aq = false;
+            this.y = false;
+            this.b = new eV(20.0f);
+            this.O = new sE("client", this, e6.a());
+            this.C = dw.a();
+            this.a6 = new fi();
+            this.as = System.nanoTime();
+            this.a2 = new aE();
+            this.u = -1L;
+            this.K = new jI();
+            this.aG = Lists.newArrayList();
+            this.k = 0.97390425f;
+            this.t = false;
+            this.l = 0;
+            this.Z = false;
+            this.q = Queues.newArrayDeque();
+            this.aa = 0L;
+            this.D = Thread.currentThread();
+            this.ay = 0;
+            this.B = true;
+            this.ac = "";
+            this.aH = false;
+            this.ag = false;
+            this.aC = false;
+            this.L = true;
+            m7[] m7Array = dw.b();
+            this.ak = 2;
+            this.aO = dw.a();
+            this.aT = -1L;
+            this.at = "root";
+            this.aY = 0L;
+            this.af = 0L;
+            w = this;
+            this.aj = h2.b.c;
+            this.r = h2.b.b;
+            this.e = h2.b.a;
+            this.ai = h2.d.a;
+            this.F = h2.a.c;
+            this.A = h2.a.b;
+            this.p = new cf(new jO(h2.b.b, h2.b.d).a());
+            this.H = h2.a.d == null ? Proxy.NO_PROXY : h2.a.d;
+            this.aZ = new YggdrasilAuthenticationService(h2.a.d, UUID.randomUUID().toString()).createMinecraftSessionService();
+            this.a4 = h2.a.a;
+            this.az = Queues.newConcurrentLinkedQueue();
+            this.Y = new et(this, h2);
+            S.info("Setting user: " + this.a4.c());
+            S.info("(Session ID is " + this.a4.d() + ")");
+            this.N = h2.d.b;
+            this.aS = false;
+            this.ah = UUID.randomUUID().toString();
+            this.s = h2.c.b > 0 ? h2.c.b : 1;
+            this.m = h2.c.d > 0 ? h2.c.d : 1;
+            this.M = h2.c.b;
+            this.a = h2.c.d;
+            this.ap = h2.c.a;
+            this.bb = dw.h();
+            this.aR = new eG(this);
+            if (h2.e.b != null) {
+                this.G = h2.e.b;
+                this.aD = h2.e.a;
+            }
+            ImageIO.setUseCache(false);
+            vH.c();
+            this.aI = new od(this);
+            if (m7.b() == null) break block1;
+            dw.b(new m7[4]);
+        }
+    }
+
+    public void f() {
+        block21: {
+            this.B = true;
+            m7[] m7Array = dw.b();
+            try {
+                this.c();
+            }
+            catch (Throwable throwable) {
+                CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Initializing game");
+                crashReport.makeCategory("Initialization");
+                this.b(this.a(crashReport));
+                return;
+            }
+            try {
+                while (this.B) {
+                    block23: {
+                        block22: {
+                            if (!this.o) break block22;
+                            if (this.av != null) break block23;
+                        }
+                        try {
+                            this.a();
+                            continue;
+                        }
+                        catch (OutOfMemoryError outOfMemoryError) {
+                            this.w();
+                            this.a(new gl());
+                            System.gc();
+                        }
+                    }
+                    this.b(this.av);
+                    break;
+                }
+            }
+            catch (d3 d32) {
+                break block21;
+            }
+            catch (el el2) {
+                this.a(el2.a());
+                this.w();
+                S.fatal("Reported exception thrown!", (Throwable)el2);
+                this.b(el2.a());
+                break block21;
+            }
+            catch (Throwable throwable) {
+                CrashReport crashReport = this.a(new CrashReport("Unexpected error", throwable));
+                this.w();
+                S.fatal("Unreported exception thrown!", throwable);
+                this.b(crashReport);
+                break block21;
+            }
+            finally {
+                this.h();
+            }
+            return;
+        }
+    }
+
+    private void c() throws LWJGLException, IOException {
+        m7[] m7Array = dw.b();
+        this.d("Loading game settings...");
+        this.aN = new jp(this, this.aj);
+        this.aG.add(this.p);
+        this.Y.a().a(this.aG);
+        m7[] m7Array2 = m7Array;
+        this.m();
+        if (this.aN.W > 0) {
+            if (this.aN.at > 0) {
+                this.s = this.aN.at;
+                this.m = this.aN.W;
+            }
+        }
+        S.info("LWJGL Version: " + Sys.getVersion());
+        this.d();
+        this.d("Initializing display mode...");
+        this.p();
+        this.d("Creating display...");
+        this.g();
+        this.d("Initializing textures...");
+        fM.a();
+        this.c = new A(this.s, this.m, true);
+        this.c.a(0.0f, 0.0f, 0.0f, 0.0f);
+        this.k();
+        this.d("Configuring resources...");
+        this.J = new af(this.e, new File(this.aj, "server-resource-packs"), this.p, this.K, this.aN);
+        this.bd = new dS(this.K);
+        this.x = new lN(this.K, this.aN.cg);
+        this.bd.a(this.x);
+        this.d("Beginning to load textures and resources");
+        fh.a(this, this.aG);
+        this.h = new kb(this.bd);
+        this.bd.a(this.h);
+        this.d("Drawing splash...");
+        gk.a(this.h);
+        this.y();
+        this.j = new aP(this.h, new File(this.r, "skins"), this.aZ);
+        this.aL = new j4(new File(this.aj, "saves"));
+        this.d("Configuring sound system...");
+        this.aA = new fl(this.bd, this.aN);
+        this.bd.a(this.aA);
+        this.aE = new jB(this);
+        this.ar = new lU(this.aN, new vx("textures/font/ascii.png"), this.h, false);
+        this.a5 = new lU(this.aN, new vx("textures/font/oascii.png"), this.h, false);
+        this.f = new vx("textures/gui/sologo.png");
+        if (this.aN.cg != null) {
+            this.ar.a(this.d());
+            this.ar.b(this.x.a());
+            this.a5.a(this.d());
+            this.a5.b(this.x.a());
+        }
+        this.aB = new lU(this.aN, new vx("textures/font/ascii_sga.png"), this.h, false);
+        this.bd.a(this.ar);
+        this.bd.a(this.a5);
+        this.bd.a(this.aB);
+        this.bd.a(new iF());
+        this.bd.a(new aM());
+        uo.v.a(new lB(this));
+        this.d("Constructing mouse helper...");
+        this.d = new gQ();
+        pM pM2 = dM.a("Render Hazırlıkları", 5, true);
+        pM2.a("GL Ayarlanıyor");
+        this.d("Configuring GL...");
+        this.a("Pre startup");
+        bU.h();
+        bU.m(7425);
+        bU.a(1.0);
+        bU.m();
+        bU.j(515);
+        bU.o();
+        bU.a(516, 0.1f);
+        bU.a(1029);
+        bU.h(5889);
+        bU.u();
+        bU.h(5888);
+        this.a("Startup");
+        pM2.a("Dokular Yükleniyor");
+        this.d("Loading textures...");
+        this.aV = new h("textures");
+        this.aV.a(this.aN.ca);
+        this.h.a(net.minecraft.client.h.l, this.aV);
+        this.h.b(net.minecraft.client.h.l);
+        this.aV.b(false, this.aN.ca > 0);
+        pM2.a("Modeller Yükleniyor");
+        this.d("Loading models...");
+        this.X = new jg(this.aV);
+        this.bd.a(this.X);
+        this.a8 = rN.a();
+        pM2.a("Itemlar Yükleniyor");
+        this.d("Loading items...");
+        this.ao = new net.minecraft.client.cz(this.h, this.X);
+        this.ba = new kr(this.h, this.ao);
+        this.R = new ju(this);
+        this.bd.a(this.ao);
+        pM2.a("Varlıklar Yükleniyor");
+        this.d("Loading renderers...");
+        this.T = new l7(this, this.bd);
+        this.bd.a(this.T);
+        this.a9 = new eo(this.X.a(), this.aN);
+        this.bd.a(this.a9);
+        this.n = new jD(this);
+        this.aP = this.T.c();
+        this.bd.a(this.n);
+        this.a_ = new hL(this);
+        bU.b(0, 0, this.s, this.m);
+        this.aw = new dr(this.I, this.h);
+        dM.a(pM2);
+        fh.b(this);
+        this.d("Finished loading");
+        this.a("Post startup");
+        this.V = new gE(this);
+        Client.startup();
+        if (this.G != null) {
+            this.a(new hp(new ga(), this, this.G, this.aD));
+        }
+        this.a(new ga());
+        this.d("Clearing splash...");
+        gk.a(this.h, this.au);
+        this.au = null;
+        this.ax = new ei(this);
+        fh.a(this);
+        if (this.aN.bD) {
+            if (!this.ap) {
+                this.r();
+            }
+        }
+        try {
+            Display.setVSyncEnabled((boolean)this.aN.aT);
+        }
+        catch (OpenGLException openGLException) {
+            this.aN.aT = false;
+            this.aN.j();
+        }
+        this.n.n();
+        this.q();
+        this.Y.a().b(this);
+        this.Y.a().g();
+    }
+
+    private void k() {
+        this.K.a(new cM(), kC.class);
+        this.K.a(new cl(), f6.class);
+        this.K.a(new ca(), ct.class);
+        this.K.a(new cI(), V.class);
+        this.K.a(new cZ(), iB.class);
+    }
+
+    private void y() {
+        try {
+            this.aM = new c_(this, Iterables.getFirst(this.F.get((Object)"twitch_access_token"), null));
+        }
+        catch (Throwable throwable) {
+            this.aM = new ef(throwable);
+            S.error("Couldn't initialize twitch stream");
+        }
+    }
+
+    private void g() throws LWJGLException {
+        m7[] m7Array = dw.b();
+        Display.setResizable((boolean)true);
+        m7[] m7Array2 = m7Array;
+        Display.setTitle((String)"Minecraft 1.8.9 - SonOyuncu Client");
+        try {
+            Display.create((PixelFormat)new PixelFormat().withDepthBits(24).withStencilBits(8));
+        }
+        catch (LWJGLException lWJGLException) {
+            S.error("Couldn't set pixel format", (Throwable)lWJGLException);
+            try {
+                S.info("  Operation System: " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version"));
+                S.info("  Java Version: " + System.getProperty("java.version") + ", " + System.getProperty("java.vendor"));
+            }
+            catch (Exception exception) {
+                exception.printStackTrace();
+            }
+            try {
+                Thread.sleep(1000L);
+            }
+            catch (InterruptedException interruptedException) {
+                // empty catch block
+            }
+            if (this.ap) {
+                this.t();
+            }
+            Display.create();
+        }
+    }
+
+    private void p() throws LWJGLException {
+        m7[] m7Array = dw.b();
+        if (this.ap) {
+            Display.setFullscreen((boolean)true);
+            DisplayMode displayMode = Display.getDisplayMode();
+            this.s = Math.max(1, displayMode.getWidth());
+            this.m = Math.max(1, displayMode.getHeight());
+        }
+        Display.setDisplayMode((DisplayMode)new DisplayMode(this.s, this.m));
+    }
+
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     */
+    private void d() {
+        xp xp2 = be.a();
+        m7[] m7Array = dw.b();
+        if (xp2 != xp.OSX) {
+            InputStream inputStream;
+            InputStream inputStream2;
+            block8: {
+                inputStream2 = null;
+                inputStream = null;
+                inputStream2 = this.p.b(new vx("icons/icon_16x16.png"));
+                inputStream = this.p.b(new vx("icons/icon_32x32.png"));
+                if (inputStream2 == null) break block8;
+                InputStream inputStream3 = inputStream;
+                if (inputStream3 == null) break block8;
+                try {
+                    Display.setIcon((ByteBuffer[])new ByteBuffer[]{this.a(inputStream2), this.a(inputStream)});
+                }
+                catch (IOException iOException) {
+                    try {
+                        S.error("Couldn't set icon", (Throwable)iOException);
+                    }
+                    catch (Throwable throwable) {
+                        IOUtils.closeQuietly(inputStream2);
+                        IOUtils.closeQuietly(inputStream);
+                        throw throwable;
+                    }
+                    IOUtils.closeQuietly(inputStream2);
+                    IOUtils.closeQuietly(inputStream);
+                }
+            }
+            IOUtils.closeQuietly(inputStream2);
+            IOUtils.closeQuietly(inputStream);
+        }
+    }
+
+    private static boolean h() {
+        String[] stringArray;
+        String[] stringArray2 = stringArray = new String[]{"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
+        m7[] m7Array = dw.b();
+        int n = 0;
+        int n2 = stringArray2.length;
+        if (n < n2) {
+            String string = stringArray2[n];
+            String string2 = System.getProperty(string);
+            if (string2.contains("64")) {
+                return true;
+            }
+            ++n;
+        }
+        return false;
+    }
+
+    public A a() {
+        return this.c;
+    }
+
+    public String c() {
+        return this.ai;
+    }
+
+    private void m() {
+        kL kL2 = new kL(this, "Timer hack thread");
+        kL2.setDaemon(true);
+        kL2.start();
+    }
+
+    public void a(CrashReport crashReport) {
+        this.o = true;
+        this.av = crashReport;
+    }
+
+    public void b(CrashReport crashReport) {
+        File file = new File(dw.a().aj, "crash-reports");
+        File file2 = new File(file, "crash-" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + "-client.txt");
+        m7[] m7Array = dw.b();
+        vH.a(crashReport.getCompleteReport());
+        m7[] m7Array2 = m7Array;
+        if (crashReport.getFile() != null) {
+            vH.a("#@!@# Game crashed! Crash report saved to: #@!@# " + crashReport.getFile());
+            System.exit(-1);
+        }
+        if (crashReport.saveToFile(file2)) {
+            vH.a("#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
+            System.exit(-1);
+        }
+        vH.a("#@?@# Game crashed! Crash report could not be saved. #@?@#");
+        System.exit(-2);
+    }
+
+    /*
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public boolean d() {
+        m7[] m7Array = dw.b();
+        if (this.x.b()) return true;
+        if (!this.aN.a1) return false;
+        return true;
+    }
+
+    public void x() {
+        ArrayList<i9> arrayList = Lists.newArrayList(this.aG);
+        m7[] m7Array = dw.b();
+        Iterator<cg> iterator = this.J.b().iterator();
+        if (iterator.hasNext()) {
+            cg cg2 = iterator.next();
+            arrayList.add(cg2.a());
+        }
+        if (this.J.a() != null) {
+            arrayList.add(this.J.a());
+        }
+        try {
+            this.bd.a(arrayList);
+        }
+        catch (RuntimeException runtimeException) {
+            S.info("Caught error stitching, removing all assigned resourcepacks", (Throwable)runtimeException);
+            arrayList.clear();
+            arrayList.addAll(this.aG);
+            this.J.a(Collections.emptyList());
+            this.bd.a(arrayList);
+            this.aN.M.clear();
+            this.aN.be.clear();
+            this.aN.j();
+        }
+        this.x.a(arrayList);
+        if (this.n != null) {
+            this.n.d();
+        }
+    }
+
+    private ByteBuffer a(InputStream inputStream) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(inputStream);
+        int[] nArray = bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), null, 0, bufferedImage.getWidth());
+        ByteBuffer byteBuffer = ByteBuffer.allocate(4 * nArray.length);
+        m7[] m7Array = dw.b();
+        int n = 0;
+        int[] nArray2 = nArray;
+        int n2 = nArray2.length;
+        if (n < n2) {
+            int n3 = nArray2[n];
+            byteBuffer.putInt(n3 << 8 | n3 >> 24 & 0xFF);
+            ++n;
+        }
+        byteBuffer.flip();
+        return byteBuffer;
+    }
+
+    private void t() throws LWJGLException {
+        Iterator<DisplayMode> iterator;
+        m7[] m7Array = dw.b();
+        HashSet hashSet = Sets.newHashSet();
+        Collections.addAll(hashSet, Display.getAvailableDisplayModes());
+        m7[] m7Array2 = m7Array;
+        DisplayMode displayMode = Display.getDesktopDisplayMode();
+        if (!hashSet.contains(displayMode) && be.a() == xp.OSX && (iterator = P.iterator()).hasNext()) {
+            DisplayMode displayMode2;
+            DisplayMode displayMode3 = iterator.next();
+            boolean bl = true;
+            Iterator iterator2 = hashSet.iterator();
+            if (iterator2.hasNext()) {
+                displayMode2 = (DisplayMode)iterator2.next();
+                if (displayMode2.getBitsPerPixel() == 32) {
+                    if (displayMode2.getWidth() == displayMode3.getWidth()) {
+                        if (displayMode2.getHeight() == displayMode3.getHeight()) {
+                            bl = false;
+                        }
+                    }
+                }
+            }
+            iterator2 = hashSet.iterator();
+            while (true) {
+                if (!iterator2.hasNext()) {
+                }
+                displayMode2 = (DisplayMode)iterator2.next();
+                if (displayMode2.getBitsPerPixel() != 32) continue;
+                if (displayMode2.getWidth() == displayMode3.getWidth() / 2 && displayMode2.getHeight() == displayMode3.getHeight() / 2) break;
+            }
+            displayMode = displayMode2;
+        }
+        Display.setDisplayMode((DisplayMode)displayMode);
+        this.s = displayMode.getWidth();
+        this.m = displayMode.getHeight();
+    }
+
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     */
+    public void a(kb kb2) throws LWJGLException {
+        jF jF2 = new jF(this);
+        int n = jF2.b();
+        A a2 = new A(jF2.a() * n, jF2.c() * n, true);
+        a2.a(false);
+        bU.h(5889);
+        bU.u();
+        bU.a(0.0, jF2.a(), jF2.c(), 0.0, 1000.0, 3000.0);
+        bU.h(5888);
+        bU.u();
+        bU.b(0.0f, 0.0f, -2000.0f);
+        bU.q();
+        bU.D();
+        bU.w();
+        bU.h();
+        InputStream inputStream = null;
+        try {
+            inputStream = this.p.a(i);
+            this.au = kb2.a("logo", new c(ImageIO.read(inputStream)));
+            kb2.b(this.au);
+        }
+        catch (IOException iOException) {
+            try {
+                S.error("Unable to load logo: " + i, (Throwable)iOException);
+            }
+            catch (Throwable throwable) {
+                IOUtils.closeQuietly(inputStream);
+                throw throwable;
+            }
+            IOUtils.closeQuietly(inputStream);
+        }
+        IOUtils.closeQuietly(inputStream);
+        av av2 = net.minecraft.client.av.a();
+        e_ e_2 = av2.a();
+        e_2.a(7, bV.e);
+        e_2.a(0.0, (double)this.m, 0.0).a(0.0, 0.0).a(255, 255, 255, 255).b();
+        e_2.a((double)this.s, (double)this.m, 0.0).a(0.0, 0.0).a(255, 255, 255, 255).b();
+        e_2.a((double)this.s, 0.0, 0.0).a(0.0, 0.0).a(255, 255, 255, 255).b();
+        e_2.a(0.0, 0.0, 0.0).a(0.0, 0.0).a(255, 255, 255, 255).b();
+        av2.a();
+        bU.c(1.0f, 1.0f, 1.0f, 1.0f);
+        int n2 = 256;
+        int n3 = 256;
+        this.a((jF2.a() - n2) / 2, (jF2.c() - n3) / 2, 0, 0, n2, n3, 255, 255, 255, 255);
+        bU.q();
+        bU.D();
+        a2.d();
+        a2.b(jF2.a() * n, jF2.c() * n);
+        bU.o();
+        bU.a(516, 0.1f);
+        this.B();
+    }
+
+    public void a(int n, int n2, int n3, int n4, int n5, int n7, int n8, int n9, int n10, int n11) {
+        float f3 = 0.00390625f;
+        float f4 = 0.00390625f;
+        e_ e_2 = net.minecraft.client.av.a().a();
+        e_2.a(7, bV.e);
+        e_2.a((double)n, (double)(n2 + n7), 0.0).a((float)n3 * f3, (float)(n4 + n7) * f4).a(n8, n9, n10, n11).b();
+        e_2.a((double)(n + n5), (double)(n2 + n7), 0.0).a((float)(n3 + n5) * f3, (float)(n4 + n7) * f4).a(n8, n9, n10, n11).b();
+        e_2.a((double)(n + n5), (double)n2, 0.0).a((float)(n3 + n5) * f3, (float)n4 * f4).a(n8, n9, n10, n11).b();
+        e_2.a((double)n, (double)n2, 0.0).a((float)n3 * f3, (float)n4 * f4).a(n8, n9, n10, n11).b();
+        net.minecraft.client.av.a().a();
+    }
+
+    public jW a() {
+        return this.aL;
+    }
+
+    public void a(gL gL2) {
+        m7[] m7Array = dw.b();
+        if (this.E != null) {
+            this.E.d();
+        }
+        if (gL2 == null && this.I == null) {
+            gL2 = new ga();
+        }
+        if (gL2 == null) {
+            if (this.aQ.b() <= 0.0f) {
+                gL2 = new gK();
+            }
+        }
+        if (gL2 instanceof ga) {
+            this.aN.cc = false;
+            this.V.a().b();
+        }
+        cp.a(this, gL2);
+        this.E = gL2;
+        if (gL2 != null) {
+            this.e();
+            jF jF2 = new jF(this);
+            int n = jF2.a();
+            int n2 = jF2.c();
+            gL2.a(this, n, n2);
+            this.v = false;
+        }
+        this.aA.d();
+        this.j();
+    }
+
+    private void a(String string) {
+        m7[] m7Array = dw.b();
+        if (this.aq) {
+            int n = GL11.glGetError();
+            if (n != 0) {
+                String string2 = GLU.gluErrorString((int)n);
+                S.error("########## GL ERROR ##########");
+                S.error("@ " + string);
+                S.error(n + ": " + string2);
+            }
+        }
+    }
+
+    public void h() {
+        m7[] m7Array = dw.b();
+        try {
+            this.aM.m();
+            S.info("Stopping!");
+            this.Y.a().b(this);
+            try {
+                this.a((cW)null);
+            }
+            catch (Throwable throwable) {
+                // empty catch block
+            }
+            this.aA.a();
+        }
+        finally {
+            Display.destroy();
+            if (!this.o) {
+                System.exit(0);
+            }
+        }
+        System.gc();
+    }
+
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     * Unable to fully structure code
+     */
+    private void a() throws IOException {
+        var2_1 = System.nanoTime();
+        var1_2 = dw.b();
+        this.a2.b("root");
+        if (Display.isCreated()) {
+            if (Display.isCloseRequested()) {
+                this.z();
+            }
+        }
+        if (this.aU) {
+            if (this.I != null) {
+                var4_3 = this.b.a;
+                this.b.a();
+                this.b.a = var4_3;
+            }
+        }
+        this.b.a();
+        this.a2.b("scheduledExecutables");
+        var4_4 = this.q;
+        synchronized (var4_4) {
+            block20: {
+                if (this.q.isEmpty()) break block20;
+                be.a(this.q.poll(), dw.S);
+            }
+            ** try [egrp 1[TRYBLOCK] [1 : 206->212)] { 
+            {
+            }
+        }
+lbl32:
+        // 1 sources
+
+        this.a2.a();
+        var4_5 = System.nanoTime();
+        this.a2.b("tick");
+        this.Y.c();
+        var6_7 = 0;
+        if (var6_7 < this.b.j) {
+            this.i();
+            ++var6_7;
+        }
+        this.a2.a("preRenderErrors");
+        var6_8 = System.nanoTime() - var4_5;
+        this.a("Pre render");
+        this.a2.a("sound");
+        this.aA.a(this.aQ, this.b.a);
+        this.a2.a();
+        this.a2.b("render");
+        bU.l();
+        bU.d(16640);
+        this.c.a(true);
+        this.a2.b("display");
+        bU.h();
+        if (this.aQ != null) {
+            if (this.aQ.N()) {
+                this.aN.ak = 0;
+            }
+        }
+        this.a2.a();
+        if (!this.v) {
+            this.Y.a().b(this, this.b.a);
+            this.a2.a("gameRenderer");
+            this.T.b(this.b.a, var2_1);
+            this.a2.a("toasts");
+            this.aI.a(new jF(this));
+            this.a2.a();
+            this.Y.a().a(this, this.b.a);
+        }
+        this.a2.a();
+        if (this.aN.cc) {
+            if (this.aN.bR) {
+                if (!this.aN.by) {
+                    if (!this.a2.p) {
+                        this.a2.b();
+                    }
+                    this.a2.p = true;
+                    this.a(var6_8);
+                }
+            }
+        }
+        this.a2.p = false;
+        this.aT = System.nanoTime();
+        this.a_.c();
+        this.c.d();
+        bU.d();
+        bU.l();
+        this.c.b(this.s, this.m);
+        bU.d();
+        bU.l();
+        this.T.e(this.b.a);
+        bU.d();
+        this.a2.b("root");
+        this.B();
+        Thread.yield();
+        this.a2.b("stream");
+        this.a2.b("update");
+        this.aM.n();
+        this.a2.a("submit");
+        this.aM.i();
+        this.a2.a();
+        this.a2.a();
+        this.a("Post render");
+        ++this.a7;
+        if (!this.p()) ** GOTO lbl-1000
+        if (this.E == null) ** GOTO lbl-1000
+        if (!this.E.a()) ** GOTO lbl-1000
+        if (!this.aR.B()) {
+            v0 = true;
+        } else lbl-1000:
+        // 4 sources
+
+        {
+            v0 = false;
+        }
+        this.aU = v0;
+        var8_9 = System.nanoTime();
+        this.a6.a(var8_9 - this.as);
+        this.as = var8_9;
+        while (dw.a() >= this.aO + 1000L) {
+            dw.aW = this.a7;
+            v1 = new Object[8];
+            v1[0] = dw.aW;
+            v1[1] = dn.u;
+            v1[2] = dn.u != 1 ? "s" : "";
+            v1[3] = (float)this.aN.bI == jx.FRAMERATE_LIMIT.a() ? "inf" : Integer.valueOf(this.aN.bI);
+            v1[4] = this.aN.aT != false ? " vsync" : "";
+            v1[5] = this.aN.S != false ? "" : " fast";
+            v1[6] = this.aN.aF == 0 ? "" : (this.aN.aF == 1 ? " fast-clouds" : " fancy-clouds");
+            v1[7] = fM.c() != false ? " vbo" : "";
+            this.ac = String.format("%d fps (%d chunk update%s) T: %s%s%s%s%s", v1);
+            dn.u = 0;
+            this.aO += 1000L;
+            this.a7 = 0;
+            this.O.d();
+            if (this.O.a()) continue;
+            this.O.b();
+            break;
+        }
+        if (this.i()) {
+            this.a2.b("fpslimit_wait");
+            Display.sync((int)this.c());
+            this.a2.a();
+        }
+        this.a2.a();
+    }
+
+    public void B() {
+        this.a2.b("display_update");
+        Display.update();
+        this.a2.a();
+        this.o();
+    }
+
+    protected void o() {
+        block5: {
+            block6: {
+                m7[] m7Array = dw.b();
+                if (this.ap) break block5;
+                if (!Display.wasResized()) break block5;
+                int n = this.s;
+                int n2 = this.m;
+                this.s = Display.getWidth();
+                this.m = Display.getHeight();
+                if (this.s != n) break block6;
+                if (this.m == n2) break block5;
+            }
+            if (this.s <= 0) {
+                this.s = 1;
+            }
+            if (this.m <= 0) {
+                this.m = 1;
+            }
+            this.a(this.s, this.m);
+        }
+    }
+
+    /*
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public int c() {
+        m7[] m7Array = dw.b();
+        if (this.I == null) {
+            if (this.E != null) {
+                return 30;
+            }
+        }
+        int n = this.aN.bI;
+        return n;
+    }
+
+    public boolean i() {
+        m7[] m7Array = dw.b();
+        return (float)this.c() < jx.FRAMERATE_LIMIT.a();
+    }
+
+    public void w() {
+        try {
+            ad = new byte[0];
+            this.n.c();
+        }
+        catch (Throwable throwable) {
+            // empty catch block
+        }
+        try {
+            System.gc();
+            this.a((cW)null);
+        }
+        catch (Throwable throwable) {
+            // empty catch block
+        }
+        System.gc();
+    }
+
+    private void a(int n) {
+        block6: {
+            List list;
+            block7: {
+                list = this.a2.a(this.at);
+                m7[] m7Array = dw.b();
+                if (list == null) break block6;
+                if (list.isEmpty()) break block6;
+                eF eF2 = (eF)list.remove(0);
+                if (n != 0) break block7;
+                if (eF2.a.length() <= 0) break block6;
+                int n2 = this.at.lastIndexOf(".");
+                this.at = this.at.substring(0, n2);
+            }
+            if (--n < list.size()) {
+                if (!((eF)list.get((int)n)).a.equals("unspecified")) {
+                    if (this.at.length() > 0) {
+                        this.at = this.at + ".";
+                    }
+                    this.at = this.at + ((eF)list.get((int)n)).a;
+                }
+            }
+        }
+    }
+
+    private void a(long l) {
+        m7[] m7Array = dw.b();
+        if (this.a2.p) {
+            int n;
+            int n2;
+            Object object;
+            List list = this.a2.a(this.at);
+            eF eF2 = (eF)list.remove(0);
+            bU.d(256);
+            bU.h(5889);
+            bU.r();
+            bU.u();
+            bU.a(0.0, this.s, this.m, 0.0, 1000.0, 3000.0);
+            bU.h(5888);
+            bU.u();
+            bU.b(0.0f, 0.0f, -2000.0f);
+            GL11.glLineWidth((float)1.0f);
+            bU.f();
+            av av2 = net.minecraft.client.av.a();
+            e_ e_2 = av2.a();
+            int n3 = 160;
+            int n4 = this.s - n3 - 10;
+            int n5 = this.m - n3 * 2;
+            bU.n();
+            e_2.a(7, bV.k);
+            e_2.a((double)((float)n4 - (float)n3 * 1.1f), (double)((float)n5 - (float)n3 * 0.6f - 16.0f), 0.0).a(200, 0, 0, 0).b();
+            e_2.a((double)((float)n4 - (float)n3 * 1.1f), (double)(n5 + n3 * 2), 0.0).a(200, 0, 0, 0).b();
+            e_2.a((double)((float)n4 + (float)n3 * 1.1f), (double)(n5 + n3 * 2), 0.0).a(200, 0, 0, 0).b();
+            e_2.a((double)((float)n4 + (float)n3 * 1.1f), (double)((float)n5 - (float)n3 * 0.6f - 16.0f), 0.0).a(200, 0, 0, 0).b();
+            av2.a();
+            bU.c();
+            double d2 = 0.0;
+            int n7 = 0;
+            if (n7 < list.size()) {
+                object = (eF)list.get(n7);
+                n2 = no.a(((eF)object).c / 4.0) + 1;
+                e_2.a(6, bV.k);
+                n = ((eF)object).a();
+                int n8 = n >> 16 & 0xFF;
+                int n9 = n >> 8 & 0xFF;
+                int n10 = n & 0xFF;
+                e_2.a((double)n4, (double)n5, 0.0).a(n8, n9, n10, 255).b();
+                int n11 = n2;
+                float f3 = (float)((d2 + ((eF)object).c * (double)n11 / (double)n2) * Math.PI * 2.0 / 100.0);
+                float f4 = no.c(f3) * (float)n3;
+                float f5 = no.e(f3) * (float)n3 * 0.5f;
+                e_2.a((double)((float)n4 + f4), (double)((float)n5 - f5), 0.0).a(n8, n9, n10, 255).b();
+                --n11;
+                av2.a();
+                e_2.a(5, bV.k);
+                n11 = n2;
+                f3 = (float)((d2 + ((eF)object).c * (double)n11 / (double)n2) * Math.PI * 2.0 / 100.0);
+                f4 = no.c(f3) * (float)n3;
+                f5 = no.e(f3) * (float)n3 * 0.5f;
+                e_2.a((double)((float)n4 + f4), (double)((float)n5 - f5), 0.0).a(n8 >> 1, n9 >> 1, n10 >> 1, 255).b();
+                e_2.a((double)((float)n4 + f4), (double)((float)n5 - f5 + 10.0f), 0.0).a(n8 >> 1, n9 >> 1, n10 >> 1, 255).b();
+                --n11;
+                av2.a();
+                d2 += ((eF)object).c;
+                ++n7;
+            }
+            DecimalFormat decimalFormat = new DecimalFormat("##0.00");
+            bU.h();
+            object = "";
+            if (!eF2.a.equals("unspecified")) {
+                object = (String)object + "[0] ";
+            }
+            if (eF2.a.length() == 0) {
+                object = (String)object + "ROOT ";
+            }
+            object = (String)object + eF2.a + " ";
+            n2 = 0xFFFFFF;
+            this.ar.a((String)object, (float)(n4 - n3), (float)(n5 - n3 / 2 - 16), n2);
+            object = decimalFormat.format(eF2.b) + "%";
+            this.ar.a((String)object, (float)(n4 + n3 - this.ar.a((String)object)), (float)(n5 - n3 / 2 - 16), n2);
+            n = 0;
+            if (n < list.size()) {
+                eF eF3 = (eF)list.get(n);
+                String string = "";
+                if (eF3.a.equals("unspecified")) {
+                    string = string + "[?] ";
+                }
+                string = string + "[" + (n + 1) + "] ";
+                string = string + eF3.a;
+                this.ar.a(string, (float)(n4 - n3), (float)(n5 + n3 / 2 + n * 8 + 20), eF3.a());
+                string = decimalFormat.format(eF3.c) + "%";
+                this.ar.a(string, (float)(n4 + n3 - 50 - this.ar.a(string)), (float)(n5 + n3 / 2 + n * 8 + 20), eF3.a());
+                string = decimalFormat.format(eF3.b) + "%";
+                this.ar.a(string, (float)(n4 + n3 - this.ar.a(string)), (float)(n5 + n3 / 2 + n * 8 + 20), eF3.a());
+                ++n;
+            }
+        }
+    }
+
+    public void z() {
+        this.B = false;
+    }
+
+    public void j() {
+        m7[] m7Array = dw.b();
+        if (Display.isActive()) {
+            if (!this.z) {
+                this.z = true;
+                this.d.a();
+                this.a((gL)null);
+                this.aF = 10000;
+            }
+        }
+    }
+
+    public void e() {
+        m7[] m7Array = dw.b();
+        if (this.z) {
+            li.b();
+            this.z = false;
+            this.d.c();
+        }
+    }
+
+    public void v() {
+        m7[] m7Array = dw.b();
+        if (this.E == null) {
+            this.a(new g6());
+            if (this.p()) {
+                if (!this.aR.B()) {
+                    this.aA.b();
+                }
+            }
+        }
+    }
+
+    private void b(boolean bl) {
+        m7[] m7Array = dw.b();
+        if (!bl) {
+            this.aF = 0;
+        }
+        if (this.aF <= 0) {
+            if (!this.aQ.i()) {
+                Object object;
+                boolean bl2 = true;
+                if (this.a() != null) {
+                    object = this.aQ.a();
+                    if (object != null) {
+                        o6 o62 = ((q_)object).a();
+                        if (this.Y.a().a(o62)) {
+                            bl2 = false;
+                        }
+                    }
+                }
+                if (bl) {
+                    if (this.W != null) {
+                        if (this.W.b == tH.BLOCK) {
+                            object = this.W.a();
+                            if (this.I.a((BlockPos)object).a().a() != net.minecraft.U.j) {
+                                if (this.Q.a((BlockPos)object, this.W.d)) {
+                                    this.aw.a((BlockPos)object, this.W.d);
+                                    this.aQ.J();
+                                }
+                            }
+                        }
+                    }
+                }
+                this.Q.b();
+            }
+        }
+    }
+
+    private void l() {
+        block12: {
+            block13: {
+                m7[] m7Array = dw.b();
+                if (this.Y != null) {
+                    if (this.Y.a().h) {
+                        return;
+                    }
+                }
+                if (this.aF > 0) break block12;
+                this.am = 1;
+                this.aQ.J();
+                if (this.Y != null) {
+                    if (!this.Y.a().a().a().b()) {
+                        return;
+                    }
+                }
+                if (this.W != null) break block13;
+                S.error("Null returned as 'hitResult', this shouldn't happen!");
+                if (this.Q.e()) break block12;
+                this.aF = 10;
+            }
+            switch (this.W.b) {
+                case ENTITY: {
+                    this.Q.a(this.aQ, this.W.c);
+                }
+                case BLOCK: {
+                    BlockPos blockPos = this.W.a();
+                    if (this.I.a(blockPos).a().a() == net.minecraft.U.j) break;
+                    this.Q.b(blockPos, this.W.d);
+                    break;
+                }
+            }
+            if (!this.Q.e()) {
+                this.aF = 10;
+            }
+        }
+    }
+
+    private void A() {
+        m7[] m7Array = dw.b();
+        if (!this.Q.i()) {
+            Object object;
+            this.a3 = 4;
+            boolean bl = true;
+            q_ q_2 = this.aQ.b3.b();
+            if (q_2 != null) {
+                if (q_2.a() != null) {
+                    object = q_2.a();
+                    if (this.aQ.a().a((o6)object)) {
+                        return;
+                    }
+                }
+            }
+            if (this.W == null) {
+                S.warn("Null returned as 'hitResult', this shouldn't happen!");
+            }
+            switch (this.W.b) {
+                case ENTITY: {
+                    if (this.Q.a((nn)this.aQ, this.W.c, this.W)) {
+                        bl = false;
+                    }
+                    if (!this.Q.a(this.aQ, this.W.c)) break;
+                    bl = false;
+                }
+                case BLOCK: {
+                    object = this.W.a();
+                    if (this.I.a((BlockPos)object).a().a() == net.minecraft.U.j) break;
+                    int n = q_2 != null ? q_2.l : 0;
+                    if (this.Q.a(this.aQ, this.I, q_2, (BlockPos)object, this.W.d, this.W.e)) {
+                        bl = false;
+                        this.aQ.J();
+                    }
+                    if (q_2 == null) {
+                        return;
+                    }
+                    if (q_2.l == 0) {
+                        this.aQ.b3.d[this.aQ.b3.f] = null;
+                    }
+                    if (q_2.l == n) {
+                        if (!this.Q.d()) break;
+                    }
+                    this.T.W.a();
+                    break;
+                }
+            }
+            if (bl) {
+                object = this.aQ.b3.b();
+                if (this.Q.a((nn)this.aQ, this.I, (q_)object)) {
+                    this.T.W.d();
+                }
+            }
+        }
+    }
+
+    /*
+     * Enabled aggressive block sorting
+     * Enabled unnecessary exception pruning
+     * Enabled aggressive exception aggregation
+     */
+    public void r() {
+        block21: {
+            block19: {
+                block20: {
+                    block17: {
+                        block18: {
+                            m7[] m7Array = dw.b();
+                            this.ap = !this.ap;
+                            this.aN.bD = this.ap;
+                            if (!this.ap) break block17;
+                            this.t();
+                            this.s = Display.getDisplayMode().getWidth();
+                            this.m = Display.getDisplayMode().getHeight();
+                            int n = this.s;
+                            if (n > 0) break block18;
+                            this.s = 1;
+                        }
+                        int n = this.m;
+                        if (n > 0) break block19;
+                        this.m = 1;
+                    }
+                    Display.setDisplayMode((DisplayMode)new DisplayMode(this.M, this.a));
+                    this.s = this.M;
+                    this.m = this.a;
+                    int n = this.s;
+                    if (n > 0) break block20;
+                    this.s = 1;
+                }
+                int n = this.m;
+                if (n > 0) break block19;
+                this.m = 1;
+            }
+            if (this.E == null) break block21;
+            this.a(this.s, this.m);
+        }
+        dw dw2 = this;
+        try {
+            dw2.s();
+            Display.setFullscreen((boolean)this.ap);
+            Display.setVSyncEnabled((boolean)this.aN.aT);
+            this.B();
+            return;
+        }
+        catch (Exception exception) {
+            S.error("Couldn't toggle fullscreen", (Throwable)exception);
+        }
+    }
+
+    public void a(int n, int n2) {
+        this.s = Math.max(1, n);
+        m7[] m7Array = dw.b();
+        this.m = Math.max(1, n2);
+        if (this.E != null) {
+            jF jF2 = new jF(this);
+            this.E.b(this, jF2.a(), jF2.c());
+        }
+        this.ax = new ei(this);
+        this.s();
+    }
+
+    private void s() {
+        m7[] m7Array = dw.b();
+        this.c.a(this.s, this.m);
+        m7[] m7Array2 = m7Array;
+        if (this.T != null) {
+            this.T.a(this.s, this.m);
+        }
+    }
+
+    public jB a() {
+        return this.aE;
+    }
+
+    /*
+     * Unable to fully structure code
+     */
+    public void i() throws IOException {
+        block194: {
+            block193: {
+                block173: {
+                    block192: {
+                        block191: {
+                            block177: {
+                                block189: {
+                                    block188: {
+                                        block190: {
+                                            block187: {
+                                                block186: {
+                                                    block182: {
+                                                        block185: {
+                                                            block183: {
+                                                                block184: {
+                                                                    block178: {
+                                                                        block181: {
+                                                                            block179: {
+                                                                                block180: {
+                                                                                    block176: {
+                                                                                        block175: {
+                                                                                            block174: {
+                                                                                                var1_1 = dw.b();
+                                                                                                if (this.a3 > 0) {
+                                                                                                    --this.a3;
+                                                                                                }
+                                                                                                if (this.am > 0) {
+                                                                                                    --this.am;
+                                                                                                }
+                                                                                                if (this.ae > 0) {
+                                                                                                    --this.ae;
+                                                                                                }
+                                                                                                if (this.Y.aj != -1) {
+                                                                                                    this.aN.ak = this.Y.aj;
+                                                                                                }
+                                                                                                if (this.a().am != null) {
+                                                                                                    if (this.a().am.equals("fps")) {
+                                                                                                        this.aN.ak = 0;
+                                                                                                    }
+                                                                                                    if (this.a().am.equals("tps")) {
+                                                                                                        this.aN.ak = 1;
+                                                                                                    }
+                                                                                                }
+                                                                                                if (this.a() != null) {
+                                                                                                    if (this.a().a() != null) {
+                                                                                                        this.a().a().c(this);
+                                                                                                    }
+                                                                                                }
+                                                                                                this.a2.b("gui");
+                                                                                                if (!this.aU) {
+                                                                                                    this.V.d();
+                                                                                                }
+                                                                                                this.a2.a();
+                                                                                                this.T.h(1.0f);
+                                                                                                this.a2.b("gameMode");
+                                                                                                if (!this.aU) {
+                                                                                                    if (this.I != null) {
+                                                                                                        this.Q.a();
+                                                                                                    }
+                                                                                                }
+                                                                                                this.a2.a("textures");
+                                                                                                if (!this.aU) {
+                                                                                                    this.h.b();
+                                                                                                }
+                                                                                                if (this.E != null) break block174;
+                                                                                                if (this.aQ == null) break block174;
+                                                                                                if (this.aQ.b() <= 0.0f) {
+                                                                                                    this.a((gL)null);
+                                                                                                }
+                                                                                                if (!this.aQ.ac()) break block175;
+                                                                                                if (this.I == null) break block175;
+                                                                                                this.a(new gt());
+                                                                                            }
+                                                                                            if (this.E != null) {
+                                                                                                if (this.E instanceof gt) {
+                                                                                                    if (!this.aQ.ac()) {
+                                                                                                        this.a((gL)null);
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        if (this.E != null) {
+                                                                                            this.aF = 10000;
+                                                                                        }
+                                                                                        if (this.E != null) {
+                                                                                            try {
+                                                                                                this.E.e();
+                                                                                            }
+                                                                                            catch (Throwable var2_2) {
+                                                                                                var3_8 = CrashReport.makeCrashReport(var2_2, "Updating screen events");
+                                                                                                var4_15 = var3_8.makeCategory("Affected screen");
+                                                                                                var4_15.addCrashSectionCallable("Screen name", new C(this));
+                                                                                                throw new el(var3_8);
+                                                                                            }
+                                                                                            if (this.E != null) {
+                                                                                                try {
+                                                                                                    this.E.i();
+                                                                                                }
+                                                                                                catch (Throwable var2_3) {
+                                                                                                    var3_9 = CrashReport.makeCrashReport(var2_3, "Ticking screen");
+                                                                                                    var4_16 = var3_9.makeCategory("Affected screen");
+                                                                                                    var4_16.addCrashSectionCallable("Screen name", new ey(this));
+                                                                                                    throw new el(var3_9);
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        if (this.E == null) break block176;
+                                                                                        if (!this.E.r) break block177;
+                                                                                    }
+                                                                                    this.a2.a("mouse");
+                                                                                    if (!Mouse.next()) break block178;
+                                                                                    var2_4 = Mouse.getEventButton();
+                                                                                    li.a(var2_4 - 100, Mouse.getEventButtonState());
+                                                                                    if (!Mouse.getEventButtonState()) break block179;
+                                                                                    if (!this.aQ.l()) break block180;
+                                                                                    if (var2_4 != 2) break block180;
+                                                                                    if (this.a().O) break block179;
+                                                                                    this.V.a().a();
+                                                                                }
+                                                                                li.a(var2_4 - 100);
+                                                                                this.a(var2_4, Mouse.getEventNanoseconds());
+                                                                            }
+                                                                            var3_10 = dw.a() - this.C;
+                                                                            if (var3_10 > 200L) break block178;
+                                                                            var5_18 = Mouse.getEventDWheel();
+                                                                            if (var5_18 != 0) {
+                                                                                if (this.aQ.l()) {
+                                                                                    var5_18 = var5_18 < 0 ? -1 : 1;
+                                                                                    if (this.V.a().a()) {
+                                                                                        this.V.a().a(-var5_18);
+                                                                                    }
+                                                                                    var6_19 = no.b(this.aQ.b7.b() + (float)var5_18 * 0.005f, 0.0f, 0.2f);
+                                                                                    this.aQ.b7.a(var6_19);
+                                                                                }
+                                                                                this.aQ.b3.a(var5_18);
+                                                                            }
+                                                                            if (this.E != null) break block181;
+                                                                            if (this.z || !Mouse.getEventButtonState()) break block178;
+                                                                            this.j();
+                                                                        }
+                                                                        if (this.E != null) {
+                                                                            this.E.g();
+                                                                        }
+                                                                    }
+                                                                    if (this.aF > 0) {
+                                                                        --this.aF;
+                                                                    }
+                                                                    this.a2.a("keyboard");
+                                                                    if (!Keyboard.next()) break block182;
+                                                                    var2_4 = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
+                                                                    li.a(var2_4, Keyboard.getEventKeyState());
+                                                                    if (Keyboard.getEventKeyState()) {
+                                                                        li.a(var2_4);
+                                                                        Client.bus.post(new EventKey(var2_4));
+                                                                    }
+                                                                    if (this.u <= 0L) break block183;
+                                                                    if (dw.a() - this.u >= 6000L) {
+                                                                        throw new el(new CrashReport("Manually triggered debug crash", new Throwable()));
+                                                                    }
+                                                                    if (!Keyboard.isKeyDown((int)46)) break block184;
+                                                                    if (Keyboard.isKeyDown((int)61)) break block185;
+                                                                }
+                                                                this.u = -1L;
+                                                            }
+                                                            if (Keyboard.isKeyDown((int)46)) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    this.u = dw.a();
+                                                                }
+                                                            }
+                                                        }
+                                                        this.n();
+                                                        if (Keyboard.getEventKeyState()) {
+                                                            if (var2_4 == 62) {
+                                                                if (this.T != null) {
+                                                                    if (!this.Y.e()) {
+                                                                        this.T.m();
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (this.E != null) {
+                                                                this.E.c();
+                                                            }
+                                                            this.Y.a().a(var2_4);
+                                                            if (var2_4 == 1) {
+                                                                this.v();
+                                                            }
+                                                            if (var2_4 == 32) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    if (this.V != null) {
+                                                                        this.V.a().b();
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (Keyboard.isKeyDown((int)61)) {
+                                                                // empty if block
+                                                            }
+                                                            if (var2_4 == 31) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    if (!this.a().a(var2_4)) {
+                                                                        var3_10 = this.a().a().m - this.aY;
+                                                                        if (this.aY == 0L || var3_10 > 1800000L) {
+                                                                            this.aY = this.a().a().m;
+                                                                            this.x();
+                                                                        }
+                                                                        this.b("§7[§6SonOyuncu§7] §c30 dakikada bir bu işlemi yapabilirsin.");
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (this.aN.aN.b()) {
+                                                                this.a(new oL());
+                                                            }
+                                                            if (var2_4 != 17 || Keyboard.isKeyDown((int)61)) {
+                                                                // empty if block
+                                                            }
+                                                            if (var2_4 != 18 || Keyboard.isKeyDown((int)61)) {
+                                                                // empty if block
+                                                            }
+                                                            if (var2_4 != 47 || Keyboard.isKeyDown((int)61)) {
+                                                                // empty if block
+                                                            }
+                                                            if (var2_4 != 38 || Keyboard.isKeyDown((int)61)) {
+                                                                // empty if block
+                                                            }
+                                                            if (var2_4 != 22 || Keyboard.isKeyDown((int)61)) {
+                                                                // empty if block
+                                                            }
+                                                            if (var2_4 == 20) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    if (this.a().a(var2_4)) {
+                                                                        this.b("§7[§6SonOyuncu§7] §cŞu anda bu işlemi yapamazsın.");
+                                                                    }
+                                                                    this.x();
+                                                                }
+                                                            }
+                                                            if (var2_4 == 33) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    if (this.a().a(var2_4)) {
+                                                                        this.b("§7[§6SonOyuncu§7] §cŞu anda bu işlemi yapamazsın.");
+                                                                    }
+                                                                    this.aN.b(jx.RENDER_DISTANCE, gL.b() != false ? -1 : 1);
+                                                                }
+                                                            }
+                                                            if (var2_4 == 30) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    if (this.a().a(var2_4)) {
+                                                                        this.b("§7[§6SonOyuncu§7] §cŞu anda bu işlemi yapamazsın.");
+                                                                    }
+                                                                    var3_10 = this.a().a().m - this.af;
+                                                                    if (this.af == 0L || var3_10 > 600000L) {
+                                                                        this.n.d();
+                                                                        this.af = this.a().a().m;
+                                                                    }
+                                                                    this.b("§7[§6SonOyuncu§7] §c10 dakikada bir bu işlemi yapabilirsin.");
+                                                                }
+                                                            }
+                                                            if (var2_4 == 35) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    if (this.a().a(var2_4)) {
+                                                                        this.b("§7[§6SonOyuncu§7] §cŞu anda bu işlemi yapamazsın.");
+                                                                    }
+                                                                    this.aN.bW = this.aN.bW == false;
+                                                                    this.aN.j();
+                                                                }
+                                                            }
+                                                            if (var2_4 == 48) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    if (this.a().a(var2_4)) {
+                                                                        this.b("§7[§6SonOyuncu§7] §cŞu anda bu işlemi yapamazsın.");
+                                                                    }
+                                                                    this.ba.a(this.ba.e() == false);
+                                                                }
+                                                            }
+                                                            if (var2_4 == 25) {
+                                                                if (Keyboard.isKeyDown((int)61)) {
+                                                                    if (this.a().a(var2_4)) {
+                                                                        this.b("§7[§6SonOyuncu§7] §cŞu anda bu işlemi yapamazsın.");
+                                                                    }
+                                                                    this.aN.bK = this.aN.bK == false;
+                                                                    this.aN.j();
+                                                                }
+                                                            }
+                                                            if (var2_4 == 59) {
+                                                                this.aN.by = this.aN.by == false;
+                                                            }
+                                                            if (var2_4 == 61) {
+                                                                this.aN.cc = this.aN.cc == false;
+                                                                this.aN.bR = gL.b();
+                                                                this.aN.Z = gL.d();
+                                                            }
+                                                            if (var2_4 == 19) {
+                                                                if (this.Y.O) {
+                                                                    this.a().a().b("pressR", this.Y.a().l);
+                                                                }
+                                                            }
+                                                            if (this.aN.O.a()) {
+                                                                if (this.Y.am == null) {
+                                                                    if (this.Y.aj == -1) {
+                                                                        ++this.aN.ak;
+                                                                        if (this.aN.ak > 2) {
+                                                                            this.aN.ak = 0;
+                                                                        }
+                                                                        if (this.aN.ak == 0) {
+                                                                            this.T.a(this.a());
+                                                                        }
+                                                                        if (this.aN.ak == 1) {
+                                                                            this.T.a((m7)null);
+                                                                        }
+                                                                        this.n.b();
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (this.aN.aH.a()) {
+                                                                this.aN.bH = this.aN.bH == false;
+                                                            }
+                                                            if (this.aN.cc) {
+                                                                if (this.aN.bR) {
+                                                                    if (var2_4 == 11) {
+                                                                        this.a(0);
+                                                                    }
+                                                                    if ((var3_11 = 0) < 9) {
+                                                                        if (var2_4 == 2 + var3_11) {
+                                                                            this.a(var3_11 + 1);
+                                                                        }
+                                                                        ++var3_11;
+                                                                    }
+                                                                }
+                                                            }
+                                                            this.Y.a().a(this, var2_4);
+                                                        }
+                                                    }
+                                                    if ((var2_4 = 0) < 9) {
+                                                        if (this.aN.ai[var2_4].a()) {
+                                                            if (this.aQ.l()) {
+                                                                this.V.a().b(var2_4);
+                                                            }
+                                                            this.aQ.b3.f = var2_4;
+                                                        }
+                                                        ++var2_4;
+                                                    }
+                                                    var2_4 = this.aN.bN != qv.HIDDEN ? 1 : 0;
+                                                    if (!this.Y.O) break block186;
+                                                    if (this.ae != 0 || !this.aN.w.b()) break block187;
+                                                    if (this.ae != 0) break block187;
+                                                    this.Y.a().b("pressInventoryKey", this.Y.a().l);
+                                                    this.ae = 4;
+                                                }
+                                                if (this.aN.w.a()) {
+                                                    if (this.Q.b()) {
+                                                        this.aQ.W();
+                                                    }
+                                                    this.a().a(new cz(qA.OPEN_INVENTORY_ACHIEVEMENT));
+                                                    this.a(new hg(this.aQ));
+                                                    this.aQ.a(vT.OPEN_INVENTORY);
+                                                }
+                                            }
+                                            if (!this.aN.bT.b()) break block188;
+                                            if (this.aQ.l()) break block189;
+                                            ++this.ay;
+                                            if (this.ay == 1) break block190;
+                                            if (this.ay <= 15) break block189;
+                                        }
+                                        this.aQ.a(gL.e());
+                                    }
+                                    this.ay = 0;
+                                }
+                                if (this.aN.ck.a()) {
+                                    if (var2_4 != 0) {
+                                        this.a(new gY());
+                                    }
+                                }
+                                if (this.E == null) {
+                                    if (this.aN.aM.a()) {
+                                        if (var2_4 != 0) {
+                                            this.a(new gY("/"));
+                                        }
+                                    }
+                                }
+                                if (this.aQ.i()) {
+                                    if (!this.aN.B.b()) {
+                                        this.Q.b(this.aQ);
+                                    }
+                                    while (this.aN.a8.a()) {
+                                    }
+                                    while (this.aN.B.a()) {
+                                    }
+                                    while (this.aN.b0.a()) {
+                                    }
+                                } else {
+                                    if (this.aN.a8.a()) {
+                                        this.l();
+                                    }
+                                    if (this.aN.B.a()) {
+                                        this.A();
+                                    }
+                                    if (this.aN.b0.a()) {
+                                        this.u();
+                                    }
+                                }
+                                if (this.aN.B.b()) {
+                                    if (this.a3 == 0) {
+                                        if (!this.aQ.i()) {
+                                            this.A();
+                                        }
+                                    }
+                                }
+                                if (this.aN.a8.b()) {
+                                    if (this.am == 0) {
+                                        if (!this.aQ.i()) {
+                                            if (this.aQ != null) {
+                                                if (this.aQ.a() != null) {
+                                                    var3_12 = this.aQ.a();
+                                                    var4_17 = var3_12.a();
+                                                    if (this.a().a().b((o6)var4_17)) {
+                                                        if (!this.a().a().c((o6)var4_17)) {
+                                                            this.l();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                if (this.E != null) ** GOTO lbl-1000
+                                if (!this.aN.a8.b()) ** GOTO lbl-1000
+                                if (this.z) {
+                                    v0 = true;
+                                } else lbl-1000:
+                                // 3 sources
+
+                                {
+                                    v0 = false;
+                                }
+                                this.b(v0);
+                            }
+                            if (this.I == null) break block191;
+                            if (this.aQ != null) {
+                                ++this.aJ;
+                                if (this.aJ == 30) {
+                                    this.aJ = 0;
+                                    this.I.b(this.aQ);
+                                }
+                            }
+                            this.a2.a("gameRenderer");
+                            if (!this.aU) {
+                                this.T.c();
+                            }
+                            this.a2.a("levelRenderer");
+                            if (!this.aU) {
+                                this.n.m();
+                            }
+                            this.a2.a("level");
+                            if (this.aU) break block192;
+                            if (this.I.a() > 0) {
+                                this.I.b(this.I.a() - 1);
+                            }
+                            this.I.d();
+                            if (this.T == null) break block192;
+                            if (this.T.a() == null) break block192;
+                            this.T.a().c();
+                        }
+                        if (this.T.a()) {
+                            this.T.l();
+                        }
+                    }
+                    if (this.az.isEmpty()) break block173;
+                    if (this.az.isEmpty()) break block173;
+                    var2_5 = this.az.poll();
+                    v1 = var2_5;
+                    if (v1 != null) ** GOTO lbl514
+                    try {
+                        break block173;
+lbl514:
+                        // 1 sources
+
+                        try {
+                            var2_5.run();
+                        }
+                        catch (Throwable var3_13) {
+                            // empty catch block
+                        }
+                    }
+                    catch (Throwable var2_6) {
+                        // empty catch block
+                    }
+                }
+                if (!this.aU) {
+                    this.aE.c();
+                    this.aA.c();
+                }
+                if (this.I == null) break block193;
+                if (!this.aU) {
+                    this.I.a(this.I.a() != re.PEACEFUL, true);
+                    try {
+                        this.I.f();
+                    }
+                    catch (Throwable var2_7) {
+                        var3_14 = CrashReport.makeCrashReport(var2_7, "Exception in world tick");
+                        if (this.I == null) {
+                            var4_17 = var3_14.makeCategory("Affected level");
+                            var4_17.addCrashSection("Problem", "Level is null!");
+                        }
+                        this.I.a(var3_14);
+                        throw new el(var3_14);
+                    }
+                }
+                this.a2.a("animateTick");
+                if (!this.aU) {
+                    if (this.I != null) {
+                        this.I.a(no.a(this.aQ.v), no.a(this.aQ.ao), no.a(this.aQ.r));
+                    }
+                }
+                this.a2.a("particles");
+                if (this.aU) break block194;
+                this.aw.a();
+            }
+            if (this.bc != null) {
+                this.a2.a("pendingConnection");
+                this.bc.c();
+            }
+        }
+        this.a2.a();
+        this.C = dw.a();
+        this.a().a().f();
+        if (this.a() != null) {
+            if (this.a().a() != null) {
+                this.a().a().a(this);
+            }
+        }
+    }
+
+    public void a(String string, String string2, eK eK2) {
+        Object object;
+        this.a((cW)null);
+        m7[] m7Array = dw.b();
+        System.gc();
+        yk yk2 = this.aL.a(string, false);
+        m7[] m7Array2 = m7Array;
+        je je2 = yk2.a();
+        if (eK2 != null) {
+            je2 = new je(eK2, string);
+            yk2.a(je2);
+        }
+        if (eK2 == null) {
+            eK2 = new eK(je2);
+        }
+        try {
+            this.aR = new eG(this, string, string2, eK2);
+            this.aR.j();
+            this.ab = true;
+        }
+        catch (Throwable throwable) {
+            CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Starting integrated server");
+            CrashReportCategory crashReportCategory = crashReport.makeCategory("Starting integrated server");
+            crashReportCategory.addCrashSection("Level ID", string);
+            crashReportCategory.addCrashSection("Level Name", string2);
+            throw new el(crashReport);
+        }
+        this.ax.c(net.minecraft.client.et.a("menu.loadingLevel", new Object[0]));
+        if (!this.aR.e()) {
+            object = this.aR.e();
+            this.ax.a(net.minecraft.client.et.a((String)object, new Object[0]));
+            this.ax.a("");
+            try {
+                Thread.sleep(200L);
+            }
+            catch (InterruptedException interruptedException) {
+                // empty catch block
+            }
+        }
+        this.a((gL)null);
+        object = this.aR.a().a();
+        cP cP2 = cP.a((SocketAddress)object);
+        cP2.a(new f7(cP2, this, null));
+        cP2.a(new yE(47, object.toString(), 0, o4.LOGIN));
+        cP2.a(new y8(this.a().a()));
+        this.bc = cP2;
+    }
+
+    public void a(cW cW2) {
+        this.a(cW2, "");
+    }
+
+    public void a(cW cW2, String string) {
+        block16: {
+            m7[] m7Array = dw.b();
+            Object object = this.a();
+            if (object != null) {
+                ((fT)object).b();
+            }
+            if (this.aR != null) {
+                if (this.aR.l()) {
+                    this.aR.c();
+                    this.aR.m();
+                }
+            }
+            this.aR = null;
+            this.a_.a();
+            this.T.a().a();
+            this.al = null;
+            this.bc = null;
+            if (this.ax != null) {
+                boolean bl = false;
+                if (this.T.a() != null) {
+                    if (!this.T.a().a.isEmpty()) {
+                        double d2 = this.T.a().a();
+                        if (d2 < 5.0) {
+                            bl = true;
+                        }
+                    }
+                }
+                if (!bl) {
+                    this.ax.b(string);
+                    this.ax.a("");
+                }
+            }
+            if (cW2 == null) {
+                if (this.I != null) {
+                    this.J.c();
+                    this.V.a();
+                    this.a((a5)null);
+                    this.ab = false;
+                }
+            }
+            this.aA.e();
+            object = this.I;
+            this.I = cW2;
+            if (this.n != null) {
+                this.n.a(cW2);
+            }
+            if (this.aw != null) {
+                this.aw.a(cW2);
+            }
+            if (this.aQ == null) {
+                this.aQ = this.Q.a(cW2, new wd());
+                this.Q.c(this.aQ);
+            }
+            this.aQ.m();
+            cW2.b(this.aQ);
+            this.aQ.cw = new rp(this.aN);
+            this.Q.a(this.aQ);
+            this.al = this.aQ;
+            this.aL.a();
+            this.aQ = null;
+            if (object == null) break block16;
+            try {
+                ((cW)object).m();
+            }
+            catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+        System.gc();
+        this.C = 0L;
+    }
+
+    public void c(int n) {
+        m7[] m7Array = dw.b();
+        this.I.k();
+        this.I.l();
+        m7[] m7Array2 = m7Array;
+        int n2 = 0;
+        String string = null;
+        if (this.aQ != null) {
+            n2 = this.aQ.m();
+            this.I.e(this.aQ);
+            string = this.aQ.e();
+        }
+        this.al = null;
+        e4 e42 = this.aQ;
+        this.aQ = this.Q.a(this.I, this.aQ == null ? new wd() : this.aQ.a());
+        this.aQ.a().a(e42.a().b());
+        this.aQ.aw = n;
+        this.al = this.aQ;
+        this.aQ.m();
+        this.aQ.b(string);
+        this.I.b(this.aQ);
+        this.Q.c(this.aQ);
+        this.aQ.cw = new rp(this.aN);
+        this.aQ.i(n2);
+        this.Q.a(this.aQ);
+        this.aQ.a(e42.k());
+        if (this.E instanceof gK) {
+            this.a((gL)null);
+        }
+    }
+
+    public final boolean o() {
+        return this.N;
+    }
+
+    public fT a() {
+        m7[] m7Array = dw.b();
+        return this.aQ != null ? this.aQ.ct : null;
+    }
+
+    /*
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public static boolean n() {
+        m7[] m7Array = dw.b();
+        if (w == null) return true;
+        if (dw.w.aN.by) return false;
+        return true;
+    }
+
+    /*
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public static boolean f() {
+        m7[] m7Array = dw.b();
+        if (w == null) return false;
+        if (!dw.w.aN.S) return false;
+        return true;
+    }
+
+    /*
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public static boolean j() {
+        m7[] m7Array = dw.b();
+        if (w == null) return false;
+        if (dw.w.aN.bh == 0) return false;
+        return true;
+    }
+
+    private void u() {
+        block21: {
+            q_ q_2;
+            Object object;
+            o6 o62;
+            x7 x72;
+            boolean bl;
+            int n;
+            boolean bl2;
+            block23: {
+                block22: {
+                    m7[] m7Array = dw.b();
+                    if (this.W == null) break block21;
+                    bl2 = this.aQ.b7.c;
+                    n = 0;
+                    bl = false;
+                    x72 = null;
+                    if (this.W.b == tH.BLOCK) {
+                        BlockPos blockPos = this.W.a();
+                        jf jf2 = this.I.a(blockPos).a();
+                        if (jf2.a() == net.minecraft.U.j) {
+                            return;
+                        }
+                        o6 o63 = jf2.a((gO)this.I, blockPos);
+                        return;
+                    }
+                    if (this.W.b != tH.ENTITY || this.W.c == null) break block22;
+                    if (bl2) break block23;
+                }
+                return;
+            }
+            if (this.W.c instanceof mv) {
+                o62 = og.Z;
+            }
+            if (this.W.c instanceof mz) {
+                o62 = og.bF;
+            }
+            if (this.W.c instanceof mJ) {
+                object = (mJ)this.W.c;
+                q_2 = ((mJ)object).a();
+                if (q_2 == null) {
+                    o62 = og.aA;
+                }
+                o62 = q_2.a();
+                n = q_2.e();
+                bl = true;
+            }
+            if (this.W.c instanceof nI) {
+                object = (nI)this.W.c;
+                switch (((nI)object).a()) {
+                    case FURNACE: {
+                        o62 = og.S;
+                    }
+                    case CHEST: {
+                        o62 = og.az;
+                    }
+                    case TNT: {
+                        o62 = og.ba;
+                    }
+                    case HOPPER: {
+                        o62 = og.v;
+                    }
+                    case COMMAND_BLOCK: {
+                        o62 = og.aF;
+                    }
+                }
+                o62 = og.bh;
+            }
+            if (this.W.c instanceof nK) {
+                o62 = og.cj;
+            }
+            if (this.W.c instanceof ny) {
+                o62 = og.ao;
+            }
+            o62 = og.bi;
+            n = p7.a(this.W.c);
+            bl = true;
+            if (!p7.g.containsKey(n)) {
+                return;
+            }
+            object = this.aQ.b3;
+            ((p9)object).a(o62, n, bl, bl2);
+            q_2 = this.a(o62, n, x72);
+            ((p9)object).a(((p9)object).f, q_2);
+            if (bl2) {
+                int n2 = this.aQ.bN.f.size() - 9 + ((p9)object).f;
+                this.Q.a(((p9)object).b(((p9)object).f), n2);
+            }
+        }
+    }
+
+    private q_ a(o6 o62, int n, x7 x72) {
+        q_ q_2 = new q_(o62, 1, n);
+        m7[] m7Array = dw.b();
+        wr wr2 = new wr();
+        x72.a(wr2);
+        if (o62 == og.o) {
+            if (wr2.b("Owner")) {
+                vV vV2 = wr2.a("Owner");
+                wr wr3 = new wr();
+                wr3.a("SkullOwner", vV2);
+                q_2.b(wr3);
+                return q_2;
+            }
+        }
+        q_2.a("BlockEntityTag", wr2);
+        wr wr4 = new wr();
+        w1 w12 = new w1();
+        w12.a(new wO("(+NBT)"));
+        wr4.a("Lore", w12);
+        q_2.a("display", wr4);
+        return q_2;
+    }
+
+    public CrashReport a(CrashReport crashReport) {
+        block0: {
+            crashReport.getCategory().addCrashSectionCallable("Launched Version", new cs(this));
+            crashReport.getCategory().addCrashSectionCallable("LWJGL", new X(this));
+            crashReport.getCategory().addCrashSectionCallable("OpenGL", new cB(this));
+            crashReport.getCategory().addCrashSectionCallable("GL Caps", new l3(this));
+            crashReport.getCategory().addCrashSectionCallable("Using VBOs", new b0(this));
+            m7[] m7Array = dw.b();
+            crashReport.getCategory().addCrashSectionCallable("Is Modded", new kp(this));
+            crashReport.getCategory().addCrashSectionCallable("Type", new dg(this));
+            m7[] m7Array2 = m7Array;
+            crashReport.getCategory().addCrashSectionCallable("Resource Packs", new bo(this));
+            crashReport.getCategory().addCrashSectionCallable("Current Language", new jl(this));
+            crashReport.getCategory().addCrashSectionCallable("Profiler Position", new fp(this));
+            crashReport.getCategory().addCrashSectionCallable("CPU", new kl(this));
+            if (this.I == null) break block0;
+            this.I.a(crashReport);
+        }
+        return crashReport;
+    }
+
+    public static dw a() {
+        return w;
+    }
+
+    public jg a() {
+        return this.X;
+    }
+
+    public ListenableFuture<Object> a() {
+        return this.a(new j6(this));
+    }
+
+    @Override
+    public void a(sE sE2) {
+        sE2.b("fps", aW);
+        sE2.b("vsync_enabled", this.aN.aT);
+        m7[] m7Array = dw.b();
+        sE2.b("display_frequency", Display.getDisplayMode().getFrequency());
+        m7[] m7Array2 = m7Array;
+        sE2.b("display_type", this.ap ? "fullscreen" : "windowed");
+        sE2.b("run_time", (e6.a() - sE2.a()) / 60L * 1000L);
+        sE2.b("current_action", this.b());
+        String string = ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN ? "little" : "big";
+        sE2.b("endianness", string);
+        sE2.b("resource_packs", this.J.b().size());
+        int n = 0;
+        Iterator<cg> iterator = this.J.b().iterator();
+        if (iterator.hasNext()) {
+            cg cg2 = iterator.next();
+            sE2.b("resource_pack[" + n++ + "]", cg2.b());
+        }
+        if (this.aR != null) {
+            if (this.aR.a() != null) {
+                sE2.b("snooper_partner", this.aR.a().a());
+            }
+        }
+    }
+
+    private String b() {
+        m7[] m7Array = dw.b();
+        return this.aR != null ? (this.aR.B() ? "hosting_lan" : "singleplayer") : (this.aK != null ? (this.aK.a() ? "playing_lan" : "multiplayer") : "out_of_game");
+    }
+
+    @Override
+    public void b(sE sE2) {
+        sE2.a("opengl_version", GL11.glGetString((int)7938));
+        sE2.a("opengl_vendor", GL11.glGetString((int)7936));
+        sE2.a("client_brand", eY.a());
+        sE2.a("launched_version", this.ai);
+        ContextCapabilities contextCapabilities = GLContext.getCapabilities();
+        sE2.a("gl_caps[ARB_arrays_of_arrays]", contextCapabilities.GL_ARB_arrays_of_arrays);
+        sE2.a("gl_caps[ARB_base_instance]", contextCapabilities.GL_ARB_base_instance);
+        sE2.a("gl_caps[ARB_blend_func_extended]", contextCapabilities.GL_ARB_blend_func_extended);
+        sE2.a("gl_caps[ARB_clear_buffer_object]", contextCapabilities.GL_ARB_clear_buffer_object);
+        sE2.a("gl_caps[ARB_color_buffer_float]", contextCapabilities.GL_ARB_color_buffer_float);
+        sE2.a("gl_caps[ARB_compatibility]", contextCapabilities.GL_ARB_compatibility);
+        sE2.a("gl_caps[ARB_compressed_texture_pixel_storage]", contextCapabilities.GL_ARB_compressed_texture_pixel_storage);
+        sE2.a("gl_caps[ARB_compute_shader]", contextCapabilities.GL_ARB_compute_shader);
+        sE2.a("gl_caps[ARB_copy_buffer]", contextCapabilities.GL_ARB_copy_buffer);
+        sE2.a("gl_caps[ARB_copy_image]", contextCapabilities.GL_ARB_copy_image);
+        sE2.a("gl_caps[ARB_depth_buffer_float]", contextCapabilities.GL_ARB_depth_buffer_float);
+        sE2.a("gl_caps[ARB_compute_shader]", contextCapabilities.GL_ARB_compute_shader);
+        sE2.a("gl_caps[ARB_copy_buffer]", contextCapabilities.GL_ARB_copy_buffer);
+        sE2.a("gl_caps[ARB_copy_image]", contextCapabilities.GL_ARB_copy_image);
+        sE2.a("gl_caps[ARB_depth_buffer_float]", contextCapabilities.GL_ARB_depth_buffer_float);
+        sE2.a("gl_caps[ARB_depth_clamp]", contextCapabilities.GL_ARB_depth_clamp);
+        sE2.a("gl_caps[ARB_depth_texture]", contextCapabilities.GL_ARB_depth_texture);
+        sE2.a("gl_caps[ARB_draw_buffers]", contextCapabilities.GL_ARB_draw_buffers);
+        sE2.a("gl_caps[ARB_draw_buffers_blend]", contextCapabilities.GL_ARB_draw_buffers_blend);
+        sE2.a("gl_caps[ARB_draw_elements_base_vertex]", contextCapabilities.GL_ARB_draw_elements_base_vertex);
+        sE2.a("gl_caps[ARB_draw_indirect]", contextCapabilities.GL_ARB_draw_indirect);
+        sE2.a("gl_caps[ARB_draw_instanced]", contextCapabilities.GL_ARB_draw_instanced);
+        sE2.a("gl_caps[ARB_explicit_attrib_location]", contextCapabilities.GL_ARB_explicit_attrib_location);
+        sE2.a("gl_caps[ARB_explicit_uniform_location]", contextCapabilities.GL_ARB_explicit_uniform_location);
+        sE2.a("gl_caps[ARB_fragment_layer_viewport]", contextCapabilities.GL_ARB_fragment_layer_viewport);
+        sE2.a("gl_caps[ARB_fragment_program]", contextCapabilities.GL_ARB_fragment_program);
+        sE2.a("gl_caps[ARB_fragment_shader]", contextCapabilities.GL_ARB_fragment_shader);
+        sE2.a("gl_caps[ARB_fragment_program_shadow]", contextCapabilities.GL_ARB_fragment_program_shadow);
+        sE2.a("gl_caps[ARB_framebuffer_object]", contextCapabilities.GL_ARB_framebuffer_object);
+        m7[] m7Array = dw.b();
+        sE2.a("gl_caps[ARB_framebuffer_sRGB]", contextCapabilities.GL_ARB_framebuffer_sRGB);
+        sE2.a("gl_caps[ARB_geometry_shader4]", contextCapabilities.GL_ARB_geometry_shader4);
+        sE2.a("gl_caps[ARB_gpu_shader5]", contextCapabilities.GL_ARB_gpu_shader5);
+        m7[] m7Array2 = m7Array;
+        sE2.a("gl_caps[ARB_half_float_pixel]", contextCapabilities.GL_ARB_half_float_pixel);
+        sE2.a("gl_caps[ARB_half_float_vertex]", contextCapabilities.GL_ARB_half_float_vertex);
+        sE2.a("gl_caps[ARB_instanced_arrays]", contextCapabilities.GL_ARB_instanced_arrays);
+        sE2.a("gl_caps[ARB_map_buffer_alignment]", contextCapabilities.GL_ARB_map_buffer_alignment);
+        sE2.a("gl_caps[ARB_map_buffer_range]", contextCapabilities.GL_ARB_map_buffer_range);
+        sE2.a("gl_caps[ARB_multisample]", contextCapabilities.GL_ARB_multisample);
+        sE2.a("gl_caps[ARB_multitexture]", contextCapabilities.GL_ARB_multitexture);
+        sE2.a("gl_caps[ARB_occlusion_query2]", contextCapabilities.GL_ARB_occlusion_query2);
+        sE2.a("gl_caps[ARB_pixel_buffer_object]", contextCapabilities.GL_ARB_pixel_buffer_object);
+        sE2.a("gl_caps[ARB_seamless_cube_map]", contextCapabilities.GL_ARB_seamless_cube_map);
+        sE2.a("gl_caps[ARB_shader_objects]", contextCapabilities.GL_ARB_shader_objects);
+        sE2.a("gl_caps[ARB_shader_stencil_export]", contextCapabilities.GL_ARB_shader_stencil_export);
+        sE2.a("gl_caps[ARB_shader_texture_lod]", contextCapabilities.GL_ARB_shader_texture_lod);
+        sE2.a("gl_caps[ARB_shadow]", contextCapabilities.GL_ARB_shadow);
+        sE2.a("gl_caps[ARB_shadow_ambient]", contextCapabilities.GL_ARB_shadow_ambient);
+        sE2.a("gl_caps[ARB_stencil_texturing]", contextCapabilities.GL_ARB_stencil_texturing);
+        sE2.a("gl_caps[ARB_sync]", contextCapabilities.GL_ARB_sync);
+        sE2.a("gl_caps[ARB_tessellation_shader]", contextCapabilities.GL_ARB_tessellation_shader);
+        sE2.a("gl_caps[ARB_texture_border_clamp]", contextCapabilities.GL_ARB_texture_border_clamp);
+        sE2.a("gl_caps[ARB_texture_buffer_object]", contextCapabilities.GL_ARB_texture_buffer_object);
+        sE2.a("gl_caps[ARB_texture_cube_map]", contextCapabilities.GL_ARB_texture_cube_map);
+        sE2.a("gl_caps[ARB_texture_cube_map_array]", contextCapabilities.GL_ARB_texture_cube_map_array);
+        sE2.a("gl_caps[ARB_texture_non_power_of_two]", contextCapabilities.GL_ARB_texture_non_power_of_two);
+        sE2.a("gl_caps[ARB_uniform_buffer_object]", contextCapabilities.GL_ARB_uniform_buffer_object);
+        sE2.a("gl_caps[ARB_vertex_blend]", contextCapabilities.GL_ARB_vertex_blend);
+        sE2.a("gl_caps[ARB_vertex_buffer_object]", contextCapabilities.GL_ARB_vertex_buffer_object);
+        sE2.a("gl_caps[ARB_vertex_program]", contextCapabilities.GL_ARB_vertex_program);
+        sE2.a("gl_caps[ARB_vertex_shader]", contextCapabilities.GL_ARB_vertex_shader);
+        sE2.a("gl_caps[EXT_bindable_uniform]", contextCapabilities.GL_EXT_bindable_uniform);
+        sE2.a("gl_caps[EXT_blend_equation_separate]", contextCapabilities.GL_EXT_blend_equation_separate);
+        sE2.a("gl_caps[EXT_blend_func_separate]", contextCapabilities.GL_EXT_blend_func_separate);
+        sE2.a("gl_caps[EXT_blend_minmax]", contextCapabilities.GL_EXT_blend_minmax);
+        sE2.a("gl_caps[EXT_blend_subtract]", contextCapabilities.GL_EXT_blend_subtract);
+        sE2.a("gl_caps[EXT_draw_instanced]", contextCapabilities.GL_EXT_draw_instanced);
+        sE2.a("gl_caps[EXT_framebuffer_multisample]", contextCapabilities.GL_EXT_framebuffer_multisample);
+        sE2.a("gl_caps[EXT_framebuffer_object]", contextCapabilities.GL_EXT_framebuffer_object);
+        sE2.a("gl_caps[EXT_framebuffer_sRGB]", contextCapabilities.GL_EXT_framebuffer_sRGB);
+        sE2.a("gl_caps[EXT_geometry_shader4]", contextCapabilities.GL_EXT_geometry_shader4);
+        sE2.a("gl_caps[EXT_gpu_program_parameters]", contextCapabilities.GL_EXT_gpu_program_parameters);
+        sE2.a("gl_caps[EXT_gpu_shader4]", contextCapabilities.GL_EXT_gpu_shader4);
+        sE2.a("gl_caps[EXT_multi_draw_arrays]", contextCapabilities.GL_EXT_multi_draw_arrays);
+        sE2.a("gl_caps[EXT_packed_depth_stencil]", contextCapabilities.GL_EXT_packed_depth_stencil);
+        sE2.a("gl_caps[EXT_paletted_texture]", contextCapabilities.GL_EXT_paletted_texture);
+        sE2.a("gl_caps[EXT_rescale_normal]", contextCapabilities.GL_EXT_rescale_normal);
+        sE2.a("gl_caps[EXT_separate_shader_objects]", contextCapabilities.GL_EXT_separate_shader_objects);
+        sE2.a("gl_caps[EXT_shader_image_load_store]", contextCapabilities.GL_EXT_shader_image_load_store);
+        sE2.a("gl_caps[EXT_shadow_funcs]", contextCapabilities.GL_EXT_shadow_funcs);
+        sE2.a("gl_caps[EXT_shared_texture_palette]", contextCapabilities.GL_EXT_shared_texture_palette);
+        sE2.a("gl_caps[EXT_stencil_clear_tag]", contextCapabilities.GL_EXT_stencil_clear_tag);
+        sE2.a("gl_caps[EXT_stencil_two_side]", contextCapabilities.GL_EXT_stencil_two_side);
+        sE2.a("gl_caps[EXT_stencil_wrap]", contextCapabilities.GL_EXT_stencil_wrap);
+        sE2.a("gl_caps[EXT_texture_3d]", contextCapabilities.GL_EXT_texture_3d);
+        sE2.a("gl_caps[EXT_texture_array]", contextCapabilities.GL_EXT_texture_array);
+        sE2.a("gl_caps[EXT_texture_buffer_object]", contextCapabilities.GL_EXT_texture_buffer_object);
+        sE2.a("gl_caps[EXT_texture_integer]", contextCapabilities.GL_EXT_texture_integer);
+        sE2.a("gl_caps[EXT_texture_lod_bias]", contextCapabilities.GL_EXT_texture_lod_bias);
+        sE2.a("gl_caps[EXT_texture_sRGB]", contextCapabilities.GL_EXT_texture_sRGB);
+        sE2.a("gl_caps[EXT_vertex_shader]", contextCapabilities.GL_EXT_vertex_shader);
+        sE2.a("gl_caps[EXT_vertex_weighting]", contextCapabilities.GL_EXT_vertex_weighting);
+        sE2.a("gl_caps[gl_max_vertex_uniforms]", GL11.glGetInteger((int)35658));
+        GL11.glGetError();
+        sE2.a("gl_caps[gl_max_fragment_uniforms]", GL11.glGetInteger((int)35657));
+        GL11.glGetError();
+        sE2.a("gl_caps[gl_max_vertex_attribs]", GL11.glGetInteger((int)34921));
+        GL11.glGetError();
+        sE2.a("gl_caps[gl_max_vertex_texture_image_units]", GL11.glGetInteger((int)35660));
+        GL11.glGetError();
+        sE2.a("gl_caps[gl_max_texture_image_units]", GL11.glGetInteger((int)34930));
+        GL11.glGetError();
+        sE2.a("gl_caps[gl_max_texture_image_units]", GL11.glGetInteger((int)35071));
+        GL11.glGetError();
+        sE2.a("gl_max_texture_size", dw.a());
+        m7.b(new int[2]);
+    }
+
+    public static int a() {
+        return gk.e();
+    }
+
+    @Override
+    public boolean b() {
+        return this.aN.aK;
+    }
+
+    public void a(a5 a52) {
+        this.aK = a52;
+    }
+
+    public a5 a() {
+        return this.aK;
+    }
+
+    public boolean m() {
+        return this.ab;
+    }
+
+    public boolean p() {
+        m7[] m7Array = dw.b();
+        return this.ab && this.aR != null;
+    }
+
+    public eG a() {
+        return this.aR;
+    }
+
+    public static void b() {
+        m7[] m7Array = dw.b();
+        if (w != null) {
+            eG eG2 = w.a();
+            if (eG2 != null) {
+                eG2.l();
+            }
+        }
+    }
+
+    public sE a() {
+        return this.O;
+    }
+
+    public static long a() {
+        return Sys.getTime() * 1000L / Sys.getTimerResolution();
+    }
+
+    public boolean l() {
+        return this.ap;
+    }
+
+    public md a() {
+        return this.a4;
+    }
+
+    public PropertyMap a() {
+        return this.F;
+    }
+
+    public PropertyMap b() {
+        m7[] m7Array = dw.b();
+        if (this.A.isEmpty()) {
+            GameProfile gameProfile = this.a().fillProfileProperties(this.a4.a(), false);
+            this.A.putAll((Multimap)gameProfile.getProperties());
+        }
+        return this.A;
+    }
+
+    public Proxy a() {
+        return this.H;
+    }
+
+    public kb a() {
+        return this.h;
+    }
+
+    public jy a() {
+        return this.bd;
+    }
+
+    public af a() {
+        return this.J;
+    }
+
+    public lN a() {
+        return this.x;
+    }
+
+    public h a() {
+        return this.aV;
+    }
+
+    public boolean g() {
+        return this.bb;
+    }
+
+    public boolean k() {
+        return this.aU;
+    }
+
+    public fl a() {
+        return this.aA;
+    }
+
+    public jd a() {
+        m7[] m7Array = dw.b();
+        return this.aQ != null ? (this.aQ.n.s instanceof ux ? jd.NETHER : (this.aQ.n.s instanceof uF ? (jv.d != null && jv.e > 0 ? jd.END_BOSS : jd.END) : (this.aQ.b7.c && this.aQ.b7.h.a().booleanValue() ? jd.CREATIVE : jd.GAME))) : jd.MENU;
+    }
+
+    public eZ a() {
+        return this.aM;
+    }
+
+    public void n() {
+        block3: {
+            int n;
+            block4: {
+                m7[] m7Array = dw.b();
+                n = Keyboard.getEventKey() == 0 ? (int)Keyboard.getEventCharacter() : Keyboard.getEventKey();
+                if (n == 0) break block3;
+                if (Keyboard.isRepeatEvent()) break block3;
+                if (!(this.E instanceof gS)) break block4;
+                if (((gS)this.E).z > dw.a() - 20L) break block3;
+            }
+            if (Keyboard.getEventKeyState()) {
+                if (n == this.aN.aR.b()) {
+                    this.r();
+                }
+                if (n == this.aN.Y.b()) {
+                    this.V.a().a(uE.a(this.aj, this.s, this.m, this.c));
+                }
+            }
+        }
+    }
+
+    public MinecraftSessionService a() {
+        return this.aZ;
+    }
+
+    public aP a() {
+        return this.j;
+    }
+
+    public m7 a() {
+        return this.al;
+    }
+
+    public void a(m7 m72) {
+        this.al = m72;
+        this.T.a(m72);
+    }
+
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     */
+    public <V> ListenableFuture<V> a(Callable<V> callable) {
+        m7[] m7Array = dw.b();
+        Validate.notNull(callable);
+        m7[] m7Array2 = m7Array;
+        if (!this.c()) {
+            ListenableFutureTask<V> listenableFutureTask = ListenableFutureTask.create(callable);
+            Queue<FutureTask<?>> queue = this.q;
+            synchronized (queue) {
+                this.q.add(listenableFutureTask);
+                return listenableFutureTask;
+            }
+        }
+        try {
+            return Futures.immediateFuture(callable.call());
+        }
+        catch (Exception exception) {
+            return Futures.immediateFailedCheckedFuture((Exception)exception);
+        }
+    }
+
+    public void b(int n) {
+        this.b.j = n;
+    }
+
+    @Override
+    public ListenableFuture<Object> a(Runnable runnable) {
+        Validate.notNull(runnable);
+        return this.a(Executors.callable(runnable));
+    }
+
+    @Override
+    public boolean c() {
+        return Thread.currentThread() == this.D;
+    }
+
+    public Thread a() {
+        return this.D;
+    }
+
+    public eo a() {
+        return this.a9;
+    }
+
+    public kr a() {
+        return this.ba;
+    }
+
+    public net.minecraft.client.cz a() {
+        return this.ao;
+    }
+
+    public ju a() {
+        return this.R;
+    }
+
+    public rN a() {
+        return this.a8;
+    }
+
+    private void a(int n, long l) {
+        block1: {
+            m7[] m7Array = dw.b();
+            if (n == 0) {
+                this.Y.a().c();
+            }
+            if (n != 1) break block1;
+            this.Y.a().a().a();
+        }
+    }
+
+    public void c(String string) {
+        S.info(string);
+    }
+
+    public void d(String string) {
+        S.info(string);
+    }
+
+    public void a(boolean bl) {
+        this.aS = bl;
+        this.Y.a().a(bl);
+    }
+
+    public boolean e() {
+        return this.aS;
+    }
+
+    public static Logger a() {
+        return S;
+    }
+
+    public void b(String string) {
+        m7[] m7Array = dw.b();
+        if (this.aQ == null) {
+            return;
+        }
+        this.aQ.a(new hk(string));
+    }
+
+    public void a(Runnable runnable) {
+        this.az.add(runnable);
+    }
+
+    public et a() {
+        return this.Y;
+    }
+
+    /*
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public static boolean a(String string) {
+        m7[] m7Array = dw.b();
+        if (string.equals("DonduranAtes")) return true;
+        if (string.equals("Speaw")) return true;
+        if (string.equals("kaanumay")) return true;
+        if (string.equals("ByNovem")) return true;
+        if (string.equals("IRFN")) return true;
+        if (string.equals("KaptanUcar")) return true;
+        if (string.equals("KaptanAykin")) return true;
+        if (!string.equals("VitesMahmut")) return false;
+        return true;
+    }
+
+    /*
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public static boolean b(String string) {
+        m7[] m7Array = dw.b();
+        if (string.equals("BrknozclK")) return true;
+        if (string.equals("nfppwn")) return true;
+        if (string.equals("LaxMean")) return true;
+        if (string.equals("TilkiBey")) return true;
+        if (string.equals("bgencacat")) return true;
+        if (string.equals("ArdaOzcann")) return true;
+        if (string.equals("TevfikaTRN")) return true;
+        if (string.equals("Skier")) return true;
+        if (string.equals("Doferino")) return true;
+        if (string.equals("Rheia")) return true;
+        if (!dw.a(string)) return false;
+        return true;
+    }
+
+    public static String a(String string) {
+        String string2 = "";
+        m7[] m7Array = dw.b();
+        int n = 0;
+        int n2 = string.length();
+        if (n < n2) {
+            char c5 = string.charAt(n);
+            c5 = (char)(c5 - 10);
+            string2 = string2 + c5;
+            ++n;
+        }
+        return string2;
+    }
+
+    public float a() {
+        m7[] m7Array = dw.b();
+        if (this.b == null) {
+            return 0.0f;
+        }
+        return this.b.a;
+    }
+
+    /*
+     * Unable to fully structure code
+     */
+    private void q() {
+        block16: {
+            block15: {
+                var1_1 = dw.b();
+                dw.S.info("------------------------------");
+                dw.S.info("System: ");
+                dw.S.info("  Operation System: " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version"));
+                dw.S.info("  CPU: " + fM.a());
+                dw.S.info("  CPU Threads: " + bR.a());
+                dw.S.info("  Java Version: " + System.getProperty("java.version") + ", " + System.getProperty("java.vendor"));
+                var2_2 = Runtime.getRuntime();
+                var3_4 = var2_2.maxMemory();
+                var5_5 = var2_2.totalMemory();
+                var7_6 = var2_2.freeMemory();
+                var9_7 = var3_4 / 1024L / 1024L;
+                var11_8 = var5_5 / 1024L / 1024L;
+                var13_9 = var7_6 / 1024L / 1024L;
+                dw.S.info("  RAM: " + var7_6 + " bytes (" + var13_9 + " MB) / " + var5_5 + " bytes (" + var11_8 + " MB) up to " + var3_4 + " bytes (" + var9_7 + " MB)");
+                this.U = GL11.glGetString((int)7936) + " " + GL11.glGetString((int)7937);
+                this.g = GL11.glGetString((int)7938);
+                dw.S.info("  Graphics Card: " + this.U);
+                dw.S.info("  OpenGL Version: " + this.g);
+                try {
+                    this.aX = fM.a() + "#" + this.U;
+                }
+                catch (Exception var15_10) {
+                    var15_10.printStackTrace();
+                }
+                var15_11 = ManagementFactory.getRuntimeMXBean();
+                var16_12 = var15_11.getInputArguments();
+                var3_4 = 0L;
+                var17_13 = new StringBuilder();
+                var18_14 = var16_12.iterator();
+                if (!var18_14.hasNext()) ** GOTO lbl47
+                var19_15 = var18_14.next();
+                v0 = var19_15.startsWith("-X");
+                if (!v0) ** GOTO lbl47
+                if (var3_4++ <= 0L) break block15;
+                var17_13.append(" ");
+            }
+            var17_13.append((String)var19_15);
+lbl47:
+            // 3 sources
+
+            dw.S.info("  JVM Flags: " + String.format("%d total; %s", new Object[]{var3_4, var17_13.toString()}));
+            dw.S.info("Options:");
+            if (bR.a() == null) ** GOTO lbl96
+            dw.S.info("  UseVBOs: " + this.aN.g);
+            var18_14 = new StringBuilder();
+            var19_15 = this.aN.M.iterator();
+            if (!var19_15.hasNext()) ** GOTO lbl77
+            var20_16 = (String)var19_15.next();
+            v1 = var18_14.length();
+            if (v1 <= 0) break block16;
+            var18_14.append(", ");
+        }
+        var18_14.append(var20_16);
+        v2 = this.aN.be.contains(var20_16);
+        if (!v2) ** GOTO lbl77
+        var18_14.append(" (incompatible)");
+lbl77:
+        // 3 sources
+
+        dw.S.info("  Resource Packs: " + var18_14.toString());
+        dw.S.info("  Current Language: " + this.x.a().toString());
+        v3 = dw.S;
+        v4 = new StringBuilder().append("  Profiler Position: ");
+        if (!this.a2.p) ** GOTO lbl88
+        v5 = this.a2;
+        try {
+            block17: {
+                v6 = v5.a();
+                break block17;
+lbl88:
+                // 1 sources
+
+                v6 = "N/A (disabled)";
+            }
+            v3.info(v4.append(v6).toString());
+            dw.S.info("  Render Distance Chunks: " + bR.f());
+            dw.S.info("  Mipmaps: " + bR.h());
+            dw.S.info("  Anisotropic Filtering: " + bR.d());
+            dw.S.info("  Antialiasing: " + bR.e());
+            dw.S.info("  Multitexture: " + bR.am());
+lbl96:
+            // 2 sources
+
+            dw.S.info("  Shaders: " + gM.a());
+            dw.S.info("------------------------------");
+        }
+        catch (Exception var2_3) {
+            var2_3.printStackTrace();
+        }
+    }
+
+    public cf a() {
+        return this.p;
+    }
+
+    public File a() {
+        return this.r;
+    }
+
+    public String a() {
+        return this.aX;
+    }
+
+    public od a() {
+        return this.aI;
+    }
+
+    public static int b() {
+        return aW;
+    }
+
+    public fi a() {
+        return this.a6;
+    }
+
+    public static Map<String, String> a() {
+        HashMap<String, String> hashMap = Maps.newHashMap();
+        hashMap.put("X-Minecraft-Username", dw.a().a().c());
+        hashMap.put("X-Minecraft-UUID", dw.a().a().b());
+        hashMap.put("X-Minecraft-Version", "1.8.9");
+        return hashMap;
+    }
+
+    public boolean a() {
+        return this.y;
+    }
+
+    public void c(boolean bl) {
+        this.y = bl;
+    }
+
+    static String a(dw dw2) {
+        return dw2.ai;
+    }
+
+    static lN a(dw dw2) {
+        return dw2.x;
+    }
+
+    static {
+        dw.b(new m7[2]);
+        S = LogManager.getLogger();
+        i = new vx("textures/gui/title/mojang.png");
+        a1 = be.a() == xp.OSX;
+        ad = new byte[0xA00000];
+        P = Lists.newArrayList(new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
+    }
+
+    public static void b(m7[] m7Array) {
+        a0 = m7Array;
+    }
+
+    public static m7[] b() {
+        return a0;
+    }
+
+    private static Throwable a(Throwable throwable) {
+        return throwable;
+    }
+}
